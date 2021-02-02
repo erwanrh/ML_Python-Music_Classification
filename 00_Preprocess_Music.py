@@ -55,14 +55,15 @@ paths_df = paths_df.set_index('song_ID')
 
 #%% Random Choice of 10 musics
 import random as rnd
-sample10 = rnd.sample(list(paths_df.index), k=10)
-sample_genres = pd.DataFrame(paths_df.loc[sample10, 'genre'])
+sample10 = rnd.sample(list(paths_df.index), k=100)
+sample_genres = pd.DataFrame()
 
 #%% Compute MFCCs
 n_mfcc = 30
 sample_mfccs = {}
-for sID in sample_genres.index:
-     sample_mfccs[sID] = librosa.feature.mfcc(y=amplitudes_allsongs[sID], sr=samplingrate,
+for sID in paths_df.index:
+    print('Song {}'.format(sID))
+    sample_mfccs[sID] = librosa.feature.mfcc(y=amplitudes_allsongs[sID], sr=samplingrate,
                                               n_mfcc=n_mfcc)
 #%% Plot 
 ax = sns.heatmap(sample_mfccs[sID],  cmap='coolwarm')
