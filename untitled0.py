@@ -47,8 +47,8 @@ for i in range(len(paths_df)):
 
 #%%
 
-
-
+for k in amplitudes_allsongs.keys():
+    
 
 
 
