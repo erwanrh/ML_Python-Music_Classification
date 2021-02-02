@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
+# -*- coding: utf-8 -*-
 Created on Wed Jan  6 21:58:14 2021
 
 @author: erwanrahis
@@ -81,8 +81,8 @@ for sID in sample_mfccs.keys():
         print('{}/{}'.format(i, n_mfcc))
         mean_mfccstemp.append( np.mean(sample_mfccs[sID][i,:]))
     mean_mfccs[sID] = mean_mfccstemp 
-
 mean_mfccs = pd.DataFrame(mean_mfccs).transpose()
+
 
 #%%
 

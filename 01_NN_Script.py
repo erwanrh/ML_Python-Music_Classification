@@ -16,7 +16,7 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder
-
+from sklearn.model_selection import train_test_split
 
 #%%
 #Sequential class of NN : pass a list with layers
@@ -40,17 +40,32 @@ model.summary()
 #%% Fit the neural network
 #Data 
 encoder = LabelEncoder()
-encoder.fit(sample_genres['genre'])
-encoded_Y = encoder.transform(sample_genres['genre'])
+encoder.fit(paths_df['genre'])
+encoded_Y = encoder.transform(paths_df['genre'])
 
-Y = to_categorical(encoded_Y)
+y = to_categorical(encoded_Y)
 X = mean_mfccs
 
-
-
-model.fit(X, Y, epochs=6)
-
-
-#%%  
-loss, accuracy = model.evaluate(x_test_norm, y_test_encoded)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
+#%% Fit du modèle
+model.fit(X_train, Y_train, epochs=700)
+#%% Score
+loss, accuracy = model.evaluate(X_test, y_test)
 print('Test set accuracy = ', accuracy*100)
+
+
+#%%TEST with new song 
+amplitude_temp, samplingrate = librosa.load('/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/ML_Python-Music_Classification/classic.wav')
+temp_mfccs = librosa.feature.mfcc(y=amplitude_temp, sr=samplingrate,
+                                              n_mfcc=n_mfcc)
+
+mean_mfccstemp = []
+for i in range(n_mfcc):
+    mean_mfccstemp.append(np.mean(temp_mfccs[i,:]))
+
+
+test_ = pd.DataFrame(mean_mfccstemp).transpose()
+pred = model.predict(test_)
+sns.histplot(pred)
+
+encoder.classes_
