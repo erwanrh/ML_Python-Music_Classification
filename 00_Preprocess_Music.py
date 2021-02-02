@@ -11,10 +11,11 @@ import sys, os
 import librosa
 import librosa.display
 import seaborn as sns
-import matplotlib as plt
+from  matplotlib import pyplot as plt
 import pandas as pd
 import numpy as np
 
+sns.set_style("darkgrid",rc={'figure.figsize':(10,5)})
 
 # %% Folder path
 
@@ -52,17 +53,36 @@ paths_df = paths_df.set_index('song_ID')
 #%% Random Choice of 10 musics
 import random as rnd
 sample10 = rnd.sample(list(paths_df.index), k=10)
-sample_genres = pd.DataFrame(paths_df.loc[sample10, 'genre']).reset_index()
-
+sample_genres = pd.DataFrame(paths_df.loc[sample10, 'genre'])
 
 #%% Compute MFCCs
+n_mfcc = 30
 sample_mfccs = {}
-for sID in sample_genres['song_ID']:
+for sID in sample_genres.index:
      sample_mfccs[sID] = librosa.feature.mfcc(y=amplitudes_allsongs[sID], sr=samplingrate,
-                                              n_mfcc=30)
+                                              n_mfcc=n_mfcc)
 #%% Plot 
-ax = sns.heatmap(sample_mfccs[sID])
+ax = sns.heatmap(sample_mfccs[sID],  cmap='coolwarm')
+ax.set_title('MFCCS for a random song : {}'.format(sID))
 ax.invert_yaxis()
+plt.savefig('mfccstest2.png', dpi=800)
+
+#%% Feature possible 
+#Mean per MFCC
+mean_mfccs = {}
+for sID in sample_mfccs.keys():
+    print('song : '+sID)
+    mean_mfccstemp = []
+    for i in range(n_mfcc):
+        print('{}/{}'.format(i, n_mfcc))
+        mean_mfccstemp.append( np.mean(sample_mfccs[sID][i,:]))
+    mean_mfccs[sID] = mean_mfccstemp 
+
+mean_mfccs = pd.DataFrame(mean_mfccs).transpose()
+
+#%%
+
+
 
 
 
