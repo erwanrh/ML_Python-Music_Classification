@@ -52,11 +52,16 @@ for i in range(len(paths_df)):
 
 #%%
 # Dataframe des mfccs
+n_mfcc = 30
+
 mfccs = []
 for path, amplitude in amplitudes_allsongs.items():
     print('track {}'.format(path))
-    mfcc = librosa.feature.mfcc(y=amplitude, sr = 22050)
-    mfccs.append([path, mfcc])
+    s = path.split('\\')[2]
+    s = s.replace('.wav','')
+    mfcc = librosa.feature.mfcc(y=amplitude, sr = 22050, n_mfcc=n_mfcc)
+    mfccs.append([s, mfcc])
+    print(np.mean(mfcc))
 df_mfcc = pd.DataFrame(mfccs, columns=['path','mfccs'])
 
 # %%
@@ -64,8 +69,10 @@ df_mfcc = pd.DataFrame(mfccs, columns=['path','mfccs'])
 chromas = []
 for path, amplitude in amplitudes_allsongs.items():
     print('track {}'.format(path))
+    s = path.split('\\')[2]
+    s = s.replace('.wav','')
     chroma = librosa.feature.chroma_stft(y=amplitude, sr=22050)
-    chromas.append([path, chroma])
+    chromas.append([s, chroma])
 df_chroma = pd.DataFrame(chromas, columns=['path','chromas'])
 
 #%%
@@ -73,23 +80,21 @@ df_chroma = pd.DataFrame(chromas, columns=['path','chromas'])
 tempos = []
 for path, amplitude in amplitudes_allsongs.items():
     print('track {}'.format(path))
+    s = path.split('\\')[2]
+    s = s.replace('.wav','')
     tempo = librosa.beat.tempo(y=amplitude, sr=22050)
-    tempos.append([path, float(tempo)])
+    tempos.append([s, float(tempo)])
 df_tempo = pd.DataFrame(tempos, columns=['path','tempos'])
 
 #%%
-# Création d'un dossier avec tous les chromagram
-if not os.path.exists('C:/Users/lilia/OneDrive/Documents\GitHub/ML_Python-Music_Classification/Chromas'):
-    os.mkdir('C:/Users/lilia/OneDrive/Documents\GitHub/ML_Python-Music_Classification/Chromas')
-    
-for track in df_chroma.itertuples():
-    s = track.path.split('\\')[2]
-    s = s.replace('.wav','')
-    fig, ax = plt.subplots()
-    img = librosa.display.specshow(track.chromas, y_axis='chroma', x_axis='time', ax=ax)
-    fig.colorbar(img, ax=ax)
-    ax.set(title='Chromagram')
-    fig.savefig('Chromas/{}.png'.format(s),format='png')
-    plt.close(fig)
+mean_mfccs = {}
+for track in df_mfcc.itertuples():
+    mean = []
+    for i in range(n_mfcc):
+        print('{}/{}'.format(i, n_mfcc))
+        mean.append(np.mean(track.mfccs[i,:]))
+    mean_mfccs[track.path] = mean
+
+mean_mfccs = pd.DataFrame(mean_mfccs).transpose()
 
 #%%
