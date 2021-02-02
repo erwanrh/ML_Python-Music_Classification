@@ -36,6 +36,7 @@ for root, dirs, files in os.walk(folder_path):
 
 paths_df = pd.DataFrame({'genre': genre_Y, 'file_path': file_X})
 
+paths_df.groupby('genre').describe()
 
 #%%
 #Boucle pour ouvrir les fichiers
@@ -81,10 +82,5 @@ for sID in sample_mfccs.keys():
 mean_mfccs = pd.DataFrame(mean_mfccs).transpose()
 
 #%%
-
-
-
-
-
 
 
