@@ -24,8 +24,8 @@ import numpy as np
 import ffmpeg
 
 # %% Folder path
-folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
-#folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
+#folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
+folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
 
 # %% Get the data 
 
@@ -49,6 +49,14 @@ for i in range(len(paths_df)):
     path_temp = paths_df.loc[i,'file_path']
     amplitude_temp, samplingrate = librosa.load(path_temp)
     amplitudes_allsongs[path_temp.split('/')[-1]] = amplitude_temp
+  
+# Egaliser les amplitudes
+ampli = [amplitude.shape[0] for amplitude in amplitudes_allsongs.values()]
+min_ampli = min(ampli)
+
+for path, amplitude in amplitudes_allsongs.items():
+    diff = amplitude.shape[0] - min_ampli
+    amplitudes_allsongs[path] = amplitude[0:-diff]
 
 #%%
 # Dataframe des mfccs
@@ -60,9 +68,8 @@ for path, amplitude in amplitudes_allsongs.items():
     s = path.split('\\')[2]
     s = s.replace('.wav','')
     mfcc = librosa.feature.mfcc(y=amplitude, sr = 22050, n_mfcc=n_mfcc)
-    mfccs.append([s, mfcc])
-    print(np.mean(mfcc))
-df_mfcc = pd.DataFrame(mfccs, columns=['path','mfccs'])
+    mfccs.append([s, mfcc.reshape(1,mfcc.shape[0]*mfcc.shape[1])])
+    df_mfcc = pd.DataFrame(mfccs, columns=['path','mfccs'])
 
 # %%
 # Dataframe des chroma features
@@ -72,7 +79,7 @@ for path, amplitude in amplitudes_allsongs.items():
     s = path.split('\\')[2]
     s = s.replace('.wav','')
     chroma = librosa.feature.chroma_stft(y=amplitude, sr=22050)
-    chromas.append([s, chroma])
+    chromas.append([s, chroma.reshape(1,chroma.shape[0]*chroma.shape[1])])
 df_chroma = pd.DataFrame(chromas, columns=['path','chromas'])
 
 #%%
@@ -92,9 +99,12 @@ for track in df_mfcc.itertuples():
     mean = []
     for i in range(n_mfcc):
         print('{}/{}'.format(i, n_mfcc))
-        mean.append(np.mean(track.mfccs[i,:]))
+        mean.append(np.mean(track.mfccs.reshape(n_mfcc, int(track.mfccs.shape[1]/n_mfcc))[i,:]))
     mean_mfccs[track.path] = mean
 
 mean_mfccs = pd.DataFrame(mean_mfccs).transpose()
 
 #%%
+
+    
+    #%%
