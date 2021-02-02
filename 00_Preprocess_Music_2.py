@@ -24,8 +24,8 @@ import numpy as np
 import ffmpeg
 
 # %% Folder path
-#folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
-folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
+folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
+#folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
 
 # %% Get the data 
 

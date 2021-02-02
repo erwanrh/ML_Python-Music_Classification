@@ -19,8 +19,10 @@ from tensorflow.keras.layers import Dense
 #%%
 #Sequential class of NN : pass a list with layers
 model = Sequential( [ #No need for input layer 
-    Dense(80, activation='relu', input_shape=(30,)), #Hidden dense layer (fully connected with ReLu activation)
-    Dense(128, activation='relu'), #Input shape implied automatically
+    Dense(30, activation='relu', input_shape=(30,)), #Hidden dense layer (fully connected with ReLu activation)
+    Dense(15, activation='relu'), #Input shape implied automatically
+    Dense(10, activation='linear'),
+    Dense(10, ativation='linear'),
     Dense(10, activation='softmax')
 ])
 
