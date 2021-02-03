@@ -19,8 +19,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 
 #%%
-#Sequential class of NN : pass a list with layers
-model = Sequential( [ #No need for input layer 
+model = Sequential( [ 
     Dense(30, activation='relu', input_shape=(30,)), #Hidden dense layer (fully connected with ReLu activation)
     Dense(20, activation='relu'), #Input shape implied automatically
     Dense(15, activation='linear'),
@@ -43,6 +42,9 @@ encoder = LabelEncoder()
 encoder.fit(paths_df['genre'])
 encoded_Y = encoder.transform(paths_df['genre'])
 
+#Get the classes of the encoder
+classes= encoder.classes_.tolist()
+
 y = to_categorical(encoded_Y)
 X = mean_mfccs
 
@@ -54,18 +56,4 @@ loss, accuracy = model.evaluate(X_test, y_test)
 print('Test set accuracy = ', accuracy*100)
 
 
-#%%TEST with new song 
-amplitude_temp, samplingrate = librosa.load('/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/ML_Python-Music_Classification/classic.wav')
-temp_mfccs = librosa.feature.mfcc(y=amplitude_temp, sr=samplingrate,
-                                              n_mfcc=n_mfcc)
 
-mean_mfccstemp = []
-for i in range(n_mfcc):
-    mean_mfccstemp.append(np.mean(temp_mfccs[i,:]))
-
-
-test_ = pd.DataFrame(mean_mfccstemp).transpose()
-pred = model.predict(test_)
-sns.histplot(pred)
-
-encoder.classes_
