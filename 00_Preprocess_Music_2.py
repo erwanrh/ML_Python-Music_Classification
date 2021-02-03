@@ -14,14 +14,12 @@ Created on Wed Jan  6 21:58:14 2021
 """
 
 # %% Imports
-import sys, os
+import os
 import librosa
 import librosa.display
-import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import ffmpeg
 
 # %% Folder path
 #folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
@@ -49,14 +47,18 @@ for i in range(len(paths_df)):
     path_temp = paths_df.loc[i,'file_path']
     amplitude_temp, samplingrate = librosa.load(path_temp)
     amplitudes_allsongs[path_temp.split('/')[-1]] = amplitude_temp
-  
+    
+#%%
 # Egaliser les amplitudes
 ampli = [amplitude.shape[0] for amplitude in amplitudes_allsongs.values()]
 min_ampli = min(ampli)
-
+print(min_ampli)
 for path, amplitude in amplitudes_allsongs.items():
     diff = amplitude.shape[0] - min_ampli
-    amplitudes_allsongs[path] = amplitude[0:-diff]
+    if diff != 0:
+        amplitudes_allsongs[path] = amplitude[:-diff]
+
+
 
 #%%
 # Dataframe des mfccs
@@ -105,6 +107,11 @@ for track in df_mfcc.itertuples():
 mean_mfccs = pd.DataFrame(mean_mfccs).transpose()
 
 #%%
+df_chroma = df_chroma.set_index('path')
+df_tempo = df_tempo.set_index('path')
+df_mfcc = df_mfcc.set_index('path')
+
+df_all = pd.concat([df_mfcc, df_chroma, df_tempo],axis = 1)
 
     
     #%%

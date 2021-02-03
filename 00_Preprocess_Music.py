@@ -12,6 +12,7 @@ import librosa
 import librosa.display
 import seaborn as sns
 from  matplotlib import pyplot as plt
+from  matplotlib import cm
 import pandas as pd
 import numpy as np
 
