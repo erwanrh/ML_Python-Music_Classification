@@ -70,7 +70,7 @@ for path, amplitude in amplitudes_allsongs.items():
     s = path.split('\\')[2]
     s = s.replace('.wav','')
     mfcc = librosa.feature.mfcc(y=amplitude, sr = 22050, n_mfcc=n_mfcc)
-    mfccs.append([s, mfcc.reshape(1,mfcc.shape[0]*mfcc.shape[1])])
+    mfccs.append([s, mfcc.reshape(mfcc.shape[0]*mfcc.shape[1])])
     df_mfcc = pd.DataFrame(mfccs, columns=['path','mfccs'])
 
 # %%
@@ -81,7 +81,7 @@ for path, amplitude in amplitudes_allsongs.items():
     s = path.split('\\')[2]
     s = s.replace('.wav','')
     chroma = librosa.feature.chroma_stft(y=amplitude, sr=22050)
-    chromas.append([s, chroma.reshape(1,chroma.shape[0]*chroma.shape[1])])
+    chromas.append([s, chroma.reshape(chroma.shape[0]*chroma.shape[1])])
 df_chroma = pd.DataFrame(chromas, columns=['path','chromas'])
 
 #%%
@@ -101,7 +101,7 @@ for track in df_mfcc.itertuples():
     mean = []
     for i in range(n_mfcc):
         print('{}/{}'.format(i, n_mfcc))
-        mean.append(np.mean(track.mfccs.reshape(n_mfcc, int(track.mfccs.shape[1]/n_mfcc))[i,:]))
+        mean.append(np.mean(track.mfccs.reshape(n_mfcc, int(track.mfccs.shape[0]/n_mfcc))[i,:]))
     mean_mfccs[track.path] = mean
 
 mean_mfccs = pd.DataFrame(mean_mfccs).transpose()
@@ -111,7 +111,8 @@ df_chroma = df_chroma.set_index('path')
 df_tempo = df_tempo.set_index('path')
 df_mfcc = df_mfcc.set_index('path')
 
-df_all = pd.concat([df_mfcc, df_chroma, df_tempo],axis = 1)
 
     
     #%%
+for i in df_mfcc['mfccs'][0]:
+    print(i)
