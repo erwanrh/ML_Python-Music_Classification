@@ -18,7 +18,6 @@ sns.set_style("darkgrid",rc={'figure.figsize':(10,5)})
 
 # %% Folder path
 
-
 folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
 #folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
 
@@ -88,12 +87,13 @@ for sID in sample_mfccs.keys():
     print('song : '+sID)
     mean_mfccstemp = []
     for i in range(n_mfcc):
-        print('{}/{}'.format(i, n_mfcc))
         mean_mfccstemp.append( np.mean(sample_mfccs[sID][i,:]))
     mean_mfccs[sID] = mean_mfccstemp 
+
 mean_mfccs = pd.DataFrame(mean_mfccs).transpose()
 
+"""
 
-#%%
+CHECK OUTPUT : dataframe with songs IDs in index and a mean for each MFCC in the columns
 
-
+"""
