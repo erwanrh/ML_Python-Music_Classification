@@ -16,7 +16,11 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split`
+from tensorflow.keras.metrics import Recall, Precision, Accuracy
+
+#%% Table with the results
+all_results = pd.DataFrame(columns=['Model', 'Accuracy', 'Precision', 'Recall'])
 
 
 #%% Modèle 1 : Modèle de NN avec 30  Moyennes des MFCCS en input 
@@ -32,7 +36,7 @@ model1 = Sequential( [
 model1.compile(
     optimizer='adam',
     loss='categorical_crossentropy',
-    metrics=['accuracy']    
+    metrics=[Accuracy(), Precision(), Recall()]    
 )
 
 
@@ -60,21 +64,31 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random
 
 #%%
 """
-Train the neural network
+Hyperparameters optimization
 """
-
 #Hyperparameter 
-n_epochs = 100
+n_epochsList = [100, 150, 70]
+n_batchList = [None, 10, 50, 200]
 
-model1.fit(X_train, y_train, epochs=n_epochs)
+i=1
+for n_epochs in n_epochsList:
+    print('Epoch {}/{}'.format(i, len(n_epochsList)))
+    j=1
+    for n_batch in n_batchList:
+        print('Batch {}/{}'.format(j, len(n_batchList)))
+        # Fit model on train sample
+        model1.fit(X_train, y_train, epochs=n_epochs, batch_size=n_batch, verbose=0)
+        # Evaluate on test sample     
+        loss, accuracy, precision, recall = model1.evaluate(X_test, y_test)
+        all_results = all_results.append({'Model':'NN_30meanMFCCs',
+                                          'Epochs': n_epochs,
+                                          'Batch': n_batch, 
+                                          'Accuracy':accuracy*100,
+                                          'Precision':precision*100,
+                                          'Recall':recall*100}, ignore_index=True)
+        j+=1
+    i+=1
+#%%Results
 
-#%% 
-"""
-Test the neural network
-"""
-loss, accuracy = model1.evaluate(X_test, y_test)
-
-print('Test set accuracy = ', accuracy*100)
-
-
+print(all_results)
 

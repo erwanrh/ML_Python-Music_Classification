@@ -31,7 +31,7 @@ for i in range(n_mfcc):
 
 #%% Test
 test_ = pd.DataFrame(mean_mfccstemp).transpose()
-pred = model.predict(test_)
+pred = model1.predict(test_)
 
 
 
