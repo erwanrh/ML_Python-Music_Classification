@@ -18,8 +18,10 @@ from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 
-#%%
-model = Sequential( [ 
+
+#%% Modèle 1 : Modèle de NN avec 30  Moyennes des MFCCS en input 
+
+model1 = Sequential( [ 
     Dense(30, activation='relu', input_shape=(30,)), #Hidden dense layer (fully connected with ReLu activation)
     Dense(20, activation='relu'), #Input shape implied automatically
     Dense(15, activation='linear'),
@@ -27,14 +29,14 @@ model = Sequential( [
     Dense(10, activation='softmax')
 ])
 
-model.compile(
+model1.compile(
     optimizer='adam',
     loss='categorical_crossentropy',
     metrics=['accuracy']    
 )
 
 
-model.summary()
+model1.summary()
 
 #%% Fit the neural network
 #Data 
