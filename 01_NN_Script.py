@@ -91,4 +91,9 @@ for n_epochs in n_epochsList:
 #%%Results
 
 print(all_results)
+all_results.loc[all_results['Batch'].isna(),'Batch']='NoBatch'
+#%%
+import FunctionsDataViz
 
+fig = FunctionsDataViz.plot_metricsNN(all_results)
+fig.savefig('Data_viZModel1.png', dpi=500)
