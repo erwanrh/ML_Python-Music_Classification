@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb  2 17:33:24 2021
 
-@author: erwanrahis
+Ben Baccar & Rahis 
+
+Script to run the model for audio processing classification
+This script contains 
+    * The Neural Networks to classify the genre
+    * Hyperparameters optimization
+    * DataViz import to plot the metrics
+    
 """
-#Script to run the model for audio processing classification
+
 
 
 import tensorflow as tf
@@ -18,6 +24,7 @@ from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split`
 from tensorflow.keras.metrics import Recall, Precision, Accuracy
+import FunctionsDataViz
 
 #%% Table with the results
 all_results = pd.DataFrame(columns=['Model', 'Accuracy', 'Precision', 'Recall'])
@@ -93,7 +100,5 @@ for n_epochs in n_epochsList:
 print(all_results)
 all_results.loc[all_results['Batch'].isna(),'Batch']='NoBatch'
 #%%
-import FunctionsDataViz
-
 fig = FunctionsDataViz.plot_metricsNN(all_results)
 fig.savefig('Data_viZModel1.png', dpi=500)
