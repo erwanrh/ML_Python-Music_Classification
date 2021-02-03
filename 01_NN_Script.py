@@ -38,8 +38,12 @@ model1.compile(
 
 model1.summary()
 
-#%% Fit the neural network
-#Data 
+#%%
+"""
+Prepare the data
+"""
+
+#One hot encoding on the labels 
 encoder = LabelEncoder()
 encoder.fit(paths_df['genre'])
 encoded_Y = encoder.transform(paths_df['genre'])
@@ -47,14 +51,29 @@ encoded_Y = encoder.transform(paths_df['genre'])
 #Get the classes of the encoder
 classes= encoder.classes_.tolist()
 
+#Features and labels
 y = to_categorical(encoded_Y)
 X = mean_mfccs
 
+#Train/Test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
-#%% Fit du modèle
-model.fit(X_train, y_train, epochs=700)
-#%% Score
-loss, accuracy = model.evaluate(X_test, y_test)
+
+#%%
+"""
+Train the neural network
+"""
+
+#Hyperparameter 
+n_epochs = 100
+
+model1.fit(X_train, y_train, epochs=n_epochs)
+
+#%% 
+"""
+Test the neural network
+"""
+loss, accuracy = model1.evaluate(X_test, y_test)
+
 print('Test set accuracy = ', accuracy*100)
 
 
