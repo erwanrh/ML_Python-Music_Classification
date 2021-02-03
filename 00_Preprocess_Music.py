@@ -15,13 +15,12 @@ from  matplotlib import pyplot as plt
 from  matplotlib import cm
 import pandas as pd
 import numpy as np
-
 sns.set_style("darkgrid",rc={'figure.figsize':(10,5)})
 
 # %% Folder path
 
-#folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
-folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
+folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
+#folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
 
 
 # %% Get the data 
@@ -40,13 +39,19 @@ paths_df = pd.DataFrame({'genre': genre_Y, 'file_path': file_X})
 
 paths_df.groupby('genre').describe()
 
-#%%
+#%% Create amplitude DF 
 #Boucle pour ouvrir les fichiers
 amplitudes_allsongs = {} 
 for i in range(len(paths_df)):
     print('track {}/{}'.format(i, len(paths_df)))
-    paths_df.loc[i, 'song_ID'] = paths_df.loc[i, 'file_path'].split('\\')[-1]
-    #paths_df.loc[i, 'song_ID'] = paths_df.loc[i, 'file_path'].split('/')[-1]
+    
+    """
+    
+TODO:    Change the split if it's Windows OR Mac
+    
+    """
+    #paths_df.loc[i, 'song_ID'] = paths_df.loc[i, 'file_path'].split('\\')[-1]
+    paths_df.loc[i, 'song_ID'] = paths_df.loc[i, 'file_path'].split('/')[-1]
     path_temp = paths_df.loc[i,'file_path']
     amplitude_temp, samplingrate = librosa.load(path_temp)
     amplitudes_allsongs[paths_df.loc[i, 'song_ID']] = amplitude_temp
@@ -54,10 +59,11 @@ for i in range(len(paths_df)):
 paths_df = paths_df.set_index('song_ID')
 
 
-#%% Random Choice of 10 musics
-import random as rnd
-sample10 = rnd.sample(list(paths_df.index), k=100)
-sample_genres = pd.DataFrame()
+"""
+
+TODO: CHECK DE L'INDEX EN SORTIE  : genre.00__.wav 
+
+"""
 
 #%% Compute MFCCs
 n_mfcc = 30
@@ -66,7 +72,10 @@ for sID in paths_df.index:
     print('Song {}'.format(sID))
     sample_mfccs[sID] = librosa.feature.mfcc(y=amplitudes_allsongs[sID], sr=samplingrate,
                                               n_mfcc=n_mfcc)
-#%% Plot 
+
+
+
+#%% Plot an example
 ax = sns.heatmap(sample_mfccs[sID],  cmap='coolwarm')
 ax.set_title('MFCCS for a random song : {}'.format(sID))
 ax.invert_yaxis()
@@ -79,12 +88,13 @@ for sID in sample_mfccs.keys():
     print('song : '+sID)
     mean_mfccstemp = []
     for i in range(n_mfcc):
-        print('{}/{}'.format(i, n_mfcc))
         mean_mfccstemp.append( np.mean(sample_mfccs[sID][i,:]))
     mean_mfccs[sID] = mean_mfccstemp 
+
 mean_mfccs = pd.DataFrame(mean_mfccs).transpose()
 
+"""
 
-#%%
+CHECK OUTPUT : dataframe with songs IDs in index and a mean for each MFCC in the columns
 
-
+"""
