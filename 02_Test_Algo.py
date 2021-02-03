@@ -7,8 +7,6 @@ Use of the algorithm with a new data entry
 
 """
 
-#%% Download a song
-!youtube-dl --extract-audio --postprocessor-args "-ss 0:0:30 -to 0:1:00" --audio-format mp3 -o "%(title)s.%(ext)s" "https://www.youtube.com/watch?v=l7MaKmKJqoc"
 
 #%%
 
