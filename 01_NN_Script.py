@@ -20,7 +20,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.metrics import Recall, Precision, Accuracy
+from tensorflow.keras.metrics import CategoricalAccuracy, Precision, Accuracy
 import FunctionsDataViz
 import FunctionsNN
 
@@ -63,19 +63,18 @@ model_name1 = 'NN_30meanMFCCs'
 optimizer_ = 'adam'
 model_object1 = Sequential( [ 
         Dense(30, activation='relu', input_shape=(30,)), #Hidden dense layer (fully connected with ReLu activation)
-        Dense(25, activation='linear'),
-        Dense(20, activation='relu'),
+        Dense(25, activation='relu'),
+        Dense(20, activation='linear'),
         Dense(15, activation='linear'),
         Dense(10, activation='softmax')
         
     ])
-model_object1.compile(
-    optimizer=optimizer_,
-    loss='categorical_crossentropy',
-    metrics=[Accuracy(), Precision(), Recall()]    
-)
 
-NN_1 = Neural_Network_Classif(X1, encoded_Y, model_name1, model_object1)
+model_object1.compile(optimizer=optimizer_,
+                     loss='categorical_crossentropy',
+                     metrics=[CategoricalAccuracy(), Precision(), Recall()])
+
+NN_1 = FunctionsNN.Neural_Network_Classif(X1, encoded_Y, model_name1, model_object1)
 res = NN_1.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
                                                 
         
@@ -102,7 +101,7 @@ model_object2 = Sequential( [
 model_object2.compile(
     optimizer=optimizer_,
     loss='categorical_crossentropy',
-    metrics=[Accuracy(), Precision(), Recall()]    
+    metrics=[CategoricalAccuracy(), Precision(), Recall()]    
 )
 
 NN_2 = Neural_Network_Classif(X2, encoded_Y, model_name2, model_object2)
@@ -137,7 +136,7 @@ model_object3 = Sequential( [
 model_object3.compile(
     optimizer=optimizer_,
     loss='categorical_crossentropy',
-    metrics=[Accuracy(), Precision(), Recall()]    
+    metrics=[CategoricalAccuracy(), Precision(), Recall()]    
 )
 
 #Neural Network Classifier Object

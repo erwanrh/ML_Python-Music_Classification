@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 
 #%%
 model = Sequential( [ 
-    Dense(31, activation='relu', input_shape=(31,)), #Hidden dense layer (fully connected with ReLu activation)
+    Dense(30, activation='relu', input_shape=(30,)), #Hidden dense layer (fully connected with ReLu activation)
     Dense(21, activation='relu'), #Input shape implied automatically
     Dense(16, activation='linear'),
     Dense(11, activation='linear'),
@@ -24,10 +24,9 @@ model = Sequential( [
 ])
 
 model.compile(
-    optimizer='adam',
-    loss='categorical_crossentropy',
-    metrics=['accuracy']    
-)
+optimizer='adam',
+loss='categorical_crossentropy',
+metrics=['categorical_accuracy'])
 
 
 model.summary()
@@ -41,34 +40,15 @@ encoded_Y = encoder.transform(paths_df['genre'])
 classes= encoder.classes_.tolist()
 
 y = to_categorical(encoded_Y)
-X = pd.concat([mean_mfccs,df_tempo],axis=1)
+X = mean_mfccs
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
 model.fit(X_train, y_train, epochs=700)
 loss, accuracy = model.evaluate(X_test, y_test)
+
+ynew = model.predict_classes(X_test)
+ytest = np.array(tf.math.argmax(y_test, axis=1))
+ytest
+
 print('Test set accuracy = ', accuracy*100)
 
-#%% 
-
-model_1 = Sequential([
-    Dense(256, activation='relu', input_shape=(X_train.shape[1],)),
-    Dense(128, activation='relu'),
-    Dense(64, activation='relu'),
-    Dense(10, activation='softmax'),
-])
-print(model_1.summary())
-
-model_1.compile(
-    optimizer='adam',
-    loss='categorical_crossentropy',
-    metrics=['accuracy']    
-)
-
-model_1.summary()
-
-X = df_tempo
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
-model_1.fit(X_train, y_train, epochs=700)
-loss, accuracy = model_1.evaluate(X_test, y_test)
-print('Test set accuracy = ', accuracy*100)

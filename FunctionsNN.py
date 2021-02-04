@@ -43,6 +43,7 @@ class Neural_Network_Classif:
             j=1
             for n_batch in n_batchList_:
                 print('Epoch {}/{} - Batch {}/{}'.format(i, len(n_epochsList_), j, len(n_batchList_)))
+
                 # Fit model on train sample
                 train_results = self.model_object.fit(self.X_train,self.y_train, 
                                                       epochs=n_epochs, batch_size=n_batch, verbose=2)
