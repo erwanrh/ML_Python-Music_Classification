@@ -13,6 +13,11 @@ import librosa.display as ld
 import IPython.display as ipd
 
 #%%
+def plot_metrics_AllModels(metric_, hyperparam_, all_results_):
+    fig, axs = plt.subplots(figsize=(15,8))
+    sns.barplot(x=hyperparam_,y= metric_,data= all_results_, hue='Model')
+    axs.set_title(metric_ + ' for different models vs ' + hyperparam_)
+    return fig
 
 def plot_metricsNN(x_, hue_, all_results):
     fig, axs = plt.subplots(figsize=(15,3), ncols=3)

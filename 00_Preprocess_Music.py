@@ -1,7 +1,17 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-Script to preprocess music signal using Librosa
-"""
+
+##################################################
+#
+#
+#
+#  Script to preprocess music signal using Librosa
+#
+#
+#
+##################################################
+## Authors: Ben Baccar Lilia / Rahis Erwan
+##################################################
 
 
 # %% Imports
