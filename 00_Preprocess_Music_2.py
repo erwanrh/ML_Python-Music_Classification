@@ -22,8 +22,8 @@ import pandas as pd
 import numpy as np
 
 # %% Folder path
-#folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
-folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
+folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
+#folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
 
 # %% Get the data 
 
@@ -67,7 +67,8 @@ n_mfcc = 30
 mfccs = []
 for path, amplitude in amplitudes_allsongs.items():
     print('track {}'.format(path))
-    s = path.split('\\')[2]
+    s = path
+    #s = path.split('\\')[2]
     s = s.replace('.wav','')
     mfcc = librosa.feature.mfcc(y=amplitude, sr = 22050, n_mfcc=n_mfcc)
     mfccs.append([s, mfcc.reshape(mfcc.shape[0]*mfcc.shape[1])])

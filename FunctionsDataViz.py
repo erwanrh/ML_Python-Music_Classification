@@ -7,6 +7,7 @@ Functions for Data Visualization
 """
 import seaborn as sns
 from matplotlib import pyplot as plt
+sns.set_theme(style='darkgrid')
 
 def plot_metricsNN(x_, hue_, all_results):
     fig, axs = plt.subplots(figsize=(15,3), ncols=3)
