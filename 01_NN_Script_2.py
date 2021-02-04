@@ -13,6 +13,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
+from tensorflow.keras.metrics import Recall, Precision, CategoricalAccuracy
+
 
 #%%
 model = Sequential( [ 
@@ -26,7 +28,7 @@ model = Sequential( [
 model.compile(
     optimizer='adam',
     loss='categorical_crossentropy',
-    metrics=['accuracy']    
+    metrics=[CategoricalAccuracy(), Precision(), Recall()]    
 )
 
 
@@ -45,8 +47,8 @@ X =pd.concat([df_mean_std_chromas,df_mean_std_mfccs,df_tempo],axis=1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
 model.fit(X_train, y_train, epochs=500)
-loss, accuracy = model.evaluate(X_test, y_test)
-print('Test set accuracy = ', accuracy*100)
+loss, accuracy, precision, recall = model.evaluate(X_test, y_test)
+print('Test set accuracy = {}. Precision = {}. Recall = {}'.format(accuracy*100,precision*100,recall*100))
 
 #%% 
 

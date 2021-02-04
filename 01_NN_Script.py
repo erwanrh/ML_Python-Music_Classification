@@ -22,7 +22,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.metrics import Recall, Precision, Accuracy
 import FunctionsDataViz
-import FunctionsNN
+from FunctionsNN import Neural_Network_Classif
 
 #%% Table with the results
 all_results = pd.DataFrame(columns=['Model','Optimizer','Epochs', 'Batch',
@@ -57,7 +57,7 @@ n_batchList = [None]
 Modèle 1 : Modèle de NN avec 30  Moyennes des MFCCS en input 
 """
 #Features
-X1 = mean_mfccs
+X1 = df_mean_mfccs
 
 model_name1 = 'NN_30meanMFCCs'
 optimizer_ = 'adam'
