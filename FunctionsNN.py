@@ -46,7 +46,7 @@ class Neural_Network_Classif:
 
                 # Fit model on train sample
                 self.model_object.fit(self.X_train,self.y_train, 
-                                                      epochs=n_epochs, batch_size=n_batch, verbose=2)
+                                                      epochs=n_epochs, batch_size=n_batch, verbose=0)
                 # Evaluate on test sample     
                 loss, accuracy, precision, recall = self.model_object.evaluate(self.X_test, self.y_test, verbose=0)
                 all_results = all_results.append({'Model':self.model_name,
@@ -60,7 +60,7 @@ class Neural_Network_Classif:
                                                  ignore_index=True)
                 j+=1
             i+=1
-        
+        print('Model Trained')
         all_results.loc[all_results['Batch'].isna(),'Batch']='NoBatch'
         fig=None
         if save_plot:
