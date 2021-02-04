@@ -8,6 +8,11 @@ Functions for Data Visualization
 import seaborn as sns
 from matplotlib import pyplot as plt
 sns.set_theme(style='darkgrid')
+import librosa 
+import librosa.display as ld
+import IPython.display as ipd
+
+#%%
 
 def plot_metricsNN(x_, hue_, all_results):
     fig, axs = plt.subplots(figsize=(15,3), ncols=3)
@@ -19,3 +24,16 @@ def plot_metricsNN(x_, hue_, all_results):
     axs[2].set_title('Recall')
     return fig
 
+
+#%%
+
+def plot_music(path):
+    ipd.Audio()
+    
+    plt.figure(figsize=(15,4))
+    son, sr = librosa.load(path, sr = 22050)
+    ld.waveplot(son, sr= sr, x_axis='time')
+    
+    mel = librosa.feature.melspectrogram(y=son, sr=sr)
+    mel_dB = librosa.power_to_db(mel)
+    img = ld.spechow(mel_dB, x_axis = 'time', y_axis = 'mel', sr = sr)
