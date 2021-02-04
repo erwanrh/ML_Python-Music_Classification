@@ -12,6 +12,7 @@ import librosa
 import librosa.display as ld
 import IPython.display as ipd
 import numpy as np
+import pandas as pd
 
 #%%
 def plot_metrics_AllModels(metric_, hyperparam_, all_results_):
@@ -69,7 +70,36 @@ plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/blues
 
 #%%
 
-def statistics():
+def statistics():  
+    df_std_mfccs = pd.read_csv('Inputs/df_std_mfccs.csv', index_col=0)
+    df_mean_mfccs = pd.read_csv('Inputs/df_mean_mfccs.csv', index_col=0)
+    df_mean_chromas = pd.read_csv('Inputs/df_mean_chromas.csv', index_col=0)
+    df_std_chromas = pd.read_csv('Inputs/df_std_chromas.csv', index_col=0)
+    df_tempo = pd.read_csv('Inputs/df_tempo.csv', index_col=0)
+    df_paths = pd.read_csv('Inputs/paths_genres.csv', index_col=0)
     
+ #   plt.figure(figsize=(20,8))
+    result = {}
+    result['std_mfccs']=df_std_mfccs.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
+    result['mean_mfccs']=df_mean_mfccs.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
+    result['std_chromas']=df_std_chromas.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
+    result['mean_chromas']=df_mean_chromas.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
+    result['tempo']=df_tempo.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
+    
+    pop = df_tempo.index[0:100]
+    reggae = df_tempo.index[400:500]
+    rock = df_tempo.index[600:700]
+    classical = df_tempo.index[500:600]
+    country = df_tempo.index[800:900]
+    blues = df_tempo.index[300:400]
+    jazz = df_tempo.index[900:1000]
+    metal = df_tempo.index[100:200]
+    hiphop = df_tempo.index[700:800]
+    disco = df_tempo.index[200:300]
+    
+    
+    
+    return 
+
 
 
