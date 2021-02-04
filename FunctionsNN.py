@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Keras Neural Networks Functions
+Keras Neural Networks Functions and Classes
 """
 import tensorflow as tf
 from tensorflow.keras.utils import to_categorical
@@ -34,7 +34,7 @@ class Neural_Network_Classif:
                                             'Test_Accuracy', 'Test_Precision', 'Test_Recall'])
         
     def run_GridSearch(self, n_epochsList_, n_batchList_, optimizer_, save_plot=False):
-         #Table for the results   
+        #Table for the results   
         all_results = pd.DataFrame(columns=['Model','Optimizer','Epochs', 'Batch',
                                             'Test_Accuracy', 'Test_Precision', 'Test_Recall'])
     
@@ -45,7 +45,7 @@ class Neural_Network_Classif:
                 print('Epoch {}/{} - Batch {}/{}'.format(i, len(n_epochsList_), j, len(n_batchList_)))
 
                 # Fit model on train sample
-                train_results = self.model_object.fit(self.X_train,self.y_train, 
+                self.model_object.fit(self.X_train,self.y_train, 
                                                       epochs=n_epochs, batch_size=n_batch, verbose=2)
                 # Evaluate on test sample     
                 loss, accuracy, precision, recall = self.model_object.evaluate(self.X_test, self.y_test, verbose=0)
@@ -55,8 +55,8 @@ class Neural_Network_Classif:
                                                   'Batch': n_batch, 
                                                   'Test_Accuracy':accuracy*100,
                                                   'Test_Precision':precision*100,
-                                                  'Test_Recall':recall*100,
-                                                  'Train_Accuracy':np.mean(train_results.history['accuracy'])*100},
+                                                  'Test_Recall':recall*100
+                                                  },
                                                  ignore_index=True)
                 j+=1
             i+=1
@@ -73,3 +73,10 @@ class Neural_Network_Classif:
         return {'results_df': all_results, 'plot':fig}
     
     
+# TEST FOR INDEX EQUALITY
+def test_index(list1, list2):
+    test = ( list1 == [idx.split('.')[0] for idx in list2] ).astype(int)
+    if 0 in test.tolist():
+        print('Error WRONG Labelling')
+    else:
+        print('Labels checked : No error')
