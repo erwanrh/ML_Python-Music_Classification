@@ -16,9 +16,9 @@ from sklearn.model_selection import train_test_split
 
 #%%
 model = Sequential( [ 
-    Dense(60, activation='relu', input_shape=(60,)), #Hidden dense layer (fully connected with ReLu activation)
-    Dense(30, activation='relu'), #Input shape implied automatically
-    Dense(20, activation='linear'),
+    Dense(85, activation='relu', input_shape=(85,)), #Hidden dense layer (fully connected with ReLu activation)
+    Dense(60, activation='relu'), #Input shape implied automatically
+    Dense(30, activation='linear'),
     Dense(15, activation='linear'),
     Dense(10, activation='softmax')
 ])
@@ -41,10 +41,10 @@ encoded_Y = encoder.transform(paths_df['genre'])
 classes= encoder.classes_.tolist()
 
 y = to_categorical(encoded_Y)
-X = df_mean_std_mfccs
+X =pd.concat([df_mean_std_chromas,df_mean_std_mfccs,df_tempo],axis=1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
-model.fit(X_train, y_train, epochs=700)
+model.fit(X_train, y_train, epochs=500)
 loss, accuracy = model.evaluate(X_test, y_test)
 print('Test set accuracy = ', accuracy*100)
 
