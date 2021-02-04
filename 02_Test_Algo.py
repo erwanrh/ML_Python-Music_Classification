@@ -26,7 +26,9 @@ import librosa
 test_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/ML_Python-Music_Classification.nosync/classic.wav'
 
 #Prediction 
-predict_genre(test_path)
+plotpred1 = predict_genre(test_path)
+plotpred1.savefig('Outputs/predmode.png', dpi=600)
+
 
 #%% FUNCTIONS
 
