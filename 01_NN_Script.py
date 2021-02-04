@@ -1,29 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
 
-Ben Baccar & Rahis 
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-Script to run the model for audio processing classification
-This script contains 
-    * The Neural Networks to classify the genre
-    * Hyperparameters optimization
-    * DataViz import to plot the metrics
-    
-"""
+#################################################################
+#
+#
+#
+#  Script to run the models for audio processing classification
+#       and run different structures of Neural Networks 
+#               + Hyperparametrization 
+#
+#
+#################################################################
+## Authors: Ben Baccar Lilia / Rahis Erwan
+#################################################################
+
 # Libraries
 import tensorflow as tf
 from tensorflow.keras.utils import to_categorical
-from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.metrics import CategoricalAccuracy, Precision, Accuracy
+from tensorflow.keras.metrics import CategoricalAccuracy, Precision, Recall
+from matplotlib import pyplot as plt
+import seaborn as sns
 import FunctionsDataViz
-from FunctionsNN import Neural_Network_Classif
+from FunctionsNN import Neural_Network_Classif, test_index
 
 #%% 
 """
@@ -66,7 +73,11 @@ Prepare the HYPERPARAMETERS
 
 #Hyperparameters
 n_epochsList = [100, 500, 800]
-n_batchList = [None, 200, 300]  
+#n_batchList = [None, 200, 300]  
+
+n_epochsList = [100]
+n_batchList = [None]  
+
 
 #%% 
 """
@@ -75,9 +86,9 @@ Model 1 = Neural Network with :
             12 mean chromas
 """
 #Features
-X1 = mean_mfccs
+X1 = df_mean_mfccs
 
-model_name1 = 'NN_30meanMFCCs'
+model_name1 = 'NN_30col_mean_MFCCs'
 optimizer_ = 'adam'
 model_object1 = Sequential( [ 
         Dense(30, activation='relu', input_shape=(30,)), #Hidden dense layer (fully connected with ReLu activation)
@@ -92,7 +103,7 @@ model_object1.compile(optimizer=optimizer_,
                      loss='categorical_crossentropy',
                      metrics=[CategoricalAccuracy(), Precision(), Recall()])
 
-NN_1 = FunctionsNN.Neural_Network_Classif(X1, encoded_Y, model_name1, model_object1)
+NN_1 = Neural_Network_Classif(X1, encoded_Y, model_name1, model_object1)
 res = NN_1.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
                                                 
         
@@ -106,9 +117,9 @@ Model 2 = Neural Network with :
 
 """
 #Features
-X2 = mean_mfccs.join(mean_chromas, lsuffix='_mfccs', rsuffix='_chroma')
+X2 = df_mean_mfccs.join(df_mean_chromas, lsuffix='_mfccs', rsuffix='_chroma')
 
-model_name2 = 'NN_42colMFCCSChromas'
+model_name2 = 'NN_42col_mean_MFCCS_Chromas'
 model_object2 = Sequential( [ 
         Dense(42, activation='relu', input_shape=(42,)), #Hidden dense layer (fully connected with ReLu activation)
         Dense(35, activation='linear'),
@@ -121,7 +132,7 @@ model_object2.compile(optimizer=optimizer_,
                      loss='categorical_crossentropy',
                      metrics=[CategoricalAccuracy(), Precision(), Recall()])
 NN_2 = Neural_Network_Classif(X2, encoded_Y, model_name2, model_object2)
-res = NN_2.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+res = NN_2.run_GridSearch(n_epochsList, n_batchList, optimizer_, False)
                                                 
 all_results = all_results.append(NN_2.results_metrics) 
 
@@ -129,14 +140,14 @@ all_results = all_results.append(NN_2.results_metrics)
 #%% 
 """
 Model 3 = Neural Network with : 
-            60 mean/std MFCCs + 
+            60 mean/std MFCCs  
 
 """
 #Features
 X3 = df_mean_mfccs.join(df_std_mfccs, lsuffix='_MeanMFCC', rsuffix='_StdMFCC')
 
 #Name of the model
-model_name3 = 'NN_60colMFCCSmeanstd'
+model_name3 = 'NN_60col_MeanStd_MFCCS'
 
 #Creation of the structure
 model_object3 = Sequential( [ 
@@ -171,37 +182,41 @@ Model 4 = Neural Network with :
 
 """
 #Features
-X3 = df_mean_mfccs.join(df_std_mfccs, lsuffix='_MeanMFCC', rsuffix='_StdMFCC')
+X4 = X3.join(df_mean_chromas.join(df_std_chromas, lsuffix='_MeanChroma', 
+                                  rsuffix='_StdChroma')).join(df_tempo,rsuffix='tempo')
 
 #Name of the model
-model_name3 = 'NN_60colMFCCSmeanstd'
+model_name4 = 'NN_85col_MeanStd_MFCCChromaTempo'
 
 #Creation of the structure
-model_object3 = Sequential( [ 
-        Dense(60, activation='relu', input_shape=(60,)), #Hidden dense layer (fully connected with ReLu activation)
-        Dense(50, activation='linear'),
-        Dense(40, activation='linear'),
-        Dense(30, activation='relu'),
-        Dense(20, activation='linear'),
+model_object4 = Sequential( [ 
+        Dense(85, activation='relu', input_shape=(85,)), #Hidden dense layer (fully connected with ReLu activation)
+        Dense(75, activation='relu'),
+        Dense(65, activation='linear'),
+        Dense(55, activation='relu'),
+        Dense(45, activation='linear'),
+        Dense(35, activation='relu'),
+        Dense(25, activation='relu'),
         Dense(10, activation='softmax')
         
     ])
 
 #Compile the model
-model_object3.compile(optimizer=optimizer_,
+model_object4.compile(optimizer=optimizer_,
                      loss='categorical_crossentropy',
                      metrics=[CategoricalAccuracy(), Precision(), Recall()])
 
 #Neural Network Classifier Object
-NN_3 = Neural_Network_Classif(X3, encoded_Y, model_name3, model_object3)
+NN_4 = Neural_Network_Classif(X4, encoded_Y, model_name4, model_object4)
 #Run GridSearch
-res = NN_3.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+res = NN_4.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
 #Append results                                               
-all_results = all_results.append(NN_3.results_metrics) 
+all_results = all_results.append(NN_4.results_metrics) 
 
 
 
 
-#%%
-sns.scatterplot(x='Model',y= 'Test_Accuracy',data= all_results, hue='Epochs' )
-
+#%% Plot the metrics
+plot1 =plot_metrics_AllModels(metric_='Test_Accuracy', hyperparam_='Epochs',
+                              all_results_=all_results)
+plot1.savefig('Outputs/NN_metrics/plot_metrics_testaccuracyepochs.png', dpi=500)
