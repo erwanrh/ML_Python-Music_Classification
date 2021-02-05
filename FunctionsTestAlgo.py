@@ -44,8 +44,8 @@ def download_url_youtube(URL):
         }],
         'postprocessor_args': [
             '-ar', '16000', 
-            '-ss','0:0:30' ,
-            '-to', '0:1:30'
+            '-ss','0:2:00' ,
+            '-to', '0:3:00'
         ],
         'prefer_ffmpeg': True,
         'keepvideo': False,
