@@ -6,7 +6,7 @@
 #
 #
 #
-# Functions to test the algorithm
+# Functions for the algorithm interface
 #
 #
 #
@@ -24,6 +24,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import requests
 import youtube_dl
+import re
 
 '''
 Packages to install
@@ -34,13 +35,82 @@ Packages to install
 
 '''
 
+###################################################################
+## User interface functions
+###################################################################
 
+#User interface to do a query on youtube download the song and return title 
+# and file name 
+def user_interface():
+    file_name = ''
+    title = ''
+    exit_ = False
+    while True:
+        try:
+            print('Music genre classifier'.center(40, '_'))
+            URL = search_youtubeVideo()
+            file_name, title = download_url_youtube(URL)
+            print('\n Music found on youtube : '+title+'\n      Download is starting')
+            exit_ = True
+            break
+            
+        except Exception:
+            print("Couldn\'t download the audio - Error in the link")
+            exit_ = False
+            option = int(input('\n1.download again \n2.Exit\n\nOption here :'))
+            if option!=1:
+                break
+            
+        finally:
+            if exit_:
+                break
+    
+    print('\n Download Done \n \n       Starting features extraction... \n ')
+    return file_name, title
+
+
+# Function to start classification from a music path  
+def predict_genre(path, chosen_model, classes, title):
+    #Feature extraction
+    features = extract_audioFeatures(path)
+    print('Features extracted\n         Starting classification... \n')
+    #Predcition with the chosen model
+    pred = chosen_model.predict(features)
+    #Plot the prediction
+    fig, ax = plt.subplots(figsize=(10,5))
+    sns.barplot(x=classes,y=pred[0])
+    ax.set_title('Classification probabilities for '+ title)
+    return fig, pred
+
+# Function to exctract a set of audio features from a file
+def extract_audioFeatures(file_path):
+    print('10% - Loading Soundwave')
+    amplitude_temp, samplingrate = librosa.load(file_path)
+    print('30% - Computing MFCCs')
+    mfcc = librosa.feature.mfcc(y=amplitude_temp, sr = samplingrate, n_mfcc=30)
+    mean_mfccs= pd.DataFrame(np.mean(mfcc, axis=1))
+    std_mfccs= pd.DataFrame(np.std(mfcc, axis=1))
+    print('50% - Computing Chromas')
+    chroma = librosa.feature.chroma_stft(y=amplitude_temp, sr=samplingrate)
+    mean_chromas = pd.DataFrame(np.mean(chroma, axis=1))
+    std_chromas =  pd.DataFrame(np.std(chroma, axis=1))
+    print('70% - Computing Tempo')
+    tempo = pd.DataFrame(librosa.beat.tempo(y=amplitude_temp, sr=samplingrate))
+    print('100% - Audio features extracted \n')
+    new_X = mean_mfccs.append(std_mfccs.append(mean_chromas.append(std_chromas.append(tempo))))
+    return new_X .transpose()
+
+
+###################################################################
+## Youtube download functions
+###################################################################
 def my_hook(d):
     if d['status'] == 'finished':
-        print('Done downloading, now converting ...')
+        print('\n Done downloading, now converting ... \n')
 
 
 def download_url_youtube(URL):
+    #Options for the youtube dl 
     ydl_opts = {
         'format': 'bestaudio/best',
         'outtmpl':'%(id)s.%(ext)s',
@@ -67,65 +137,12 @@ def download_url_youtube(URL):
     return file_name, temp_info['title']
 
 
-def user_interface():
-    file_name = ''
-    title = ''
-    exit_ = False
-    while True:
-        try:
-            print('Youtube Downloader'.center(40, '_'))
-            URL = search_youtubeVideo()
-            file_name, title = download_url_youtube(URL)
-            exit_ = True
-            break
-            
-        except Exception:
-            print("Couldn\'t download the audio")
-            exit_ = False
-            option = int(input('\n1.download again \n2.Exit\n\nOption here :'))
-            if option!=1:
-                break
-            
-        finally:
-            if exit_:
-                break
-    
-    print('\n     Download Done \n            Starting classification')
-    return file_name, title
-
-
-
-def predict_genre(path, chosen_model, classes, title):
-    features = extract_audioFeatures(path)
-    pred = chosen_model.predict(features)
-    
-    
-    fig, ax = plt.subplots(figsize=(10,5))
-    sns.barplot(x=classes,y=pred[0])
-    ax.set_title('Classification probabilities for '+ title)
-    return fig, pred
-
-
-def extract_audioFeatures(file_path):
-    print('10% - Loading Soundwave')
-    amplitude_temp, samplingrate = librosa.load(file_path)
-    print('30% - Computing MFCCs')
-    mfcc = librosa.feature.mfcc(y=amplitude_temp, sr = samplingrate, n_mfcc=30)
-    mean_mfccs= pd.DataFrame(np.mean(mfcc, axis=1))
-    std_mfccs= pd.DataFrame(np.std(mfcc, axis=1))
-    print('50% - Computing Chromas')
-    chroma = librosa.feature.chroma_stft(y=amplitude_temp, sr=samplingrate)
-    mean_chromas = pd.DataFrame(np.mean(chroma, axis=1))
-    std_chromas =  pd.DataFrame(np.std(chroma, axis=1))
-    print('70% - Computing Tempo')
-    tempo = pd.DataFrame(librosa.beat.tempo(y=amplitude_temp, sr=samplingrate))
-    print('100% - Audio features extracted')
-    new_X = mean_mfccs.append(std_mfccs.append(mean_chromas.append(std_chromas.append(tempo))))
-    return new_X .transpose()
-
-#Web Scrapping 
+###################################################################
+## Webscrapping functions
+###################################################################
 def inputYT_url():
     query_ = input('Search music : ').replace(' ','+')
+    print('\n')
     return 'https://www.youtube.com/results?search_query='+query_
     
 
@@ -134,6 +151,5 @@ def search_youtubeVideo():
     html = urllib.request.urlopen(URL_search)
     decoder = html.read().decode()
     video_ids = re.findall(r"watch\?v=(\S{11})", decoder)
-    #video_titles = 
     URL_video = 'https://www.youtube.com/watch?v=' + video_ids[0] #We take the first result
     return URL_video

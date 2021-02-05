@@ -358,7 +358,11 @@ res = NN_7.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
 #Append results                                               
 all_results = all_results.append(NN_7.results_metrics) 
 
-#%% Plot the metrics
+#%% 
+"""
+MPlot the metrics to compare different models
+
+"""
 plot1 =plot_metrics_AllModels(metric_='Test_Accuracy', hyperparam_='Epochs',
                               all_results_=all_results)
 #plot1.savefig('Outputs/NN_metrics/plot_metrics_testaccuracyepochs.png', dpi=500)
