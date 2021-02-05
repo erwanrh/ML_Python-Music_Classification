@@ -20,13 +20,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import librosa
 import seaborn as sns
+import urllib.request
+from bs4 import BeautifulSoup
+import requests
+import youtube_dl
+
 '''
 Packages to install
                     - youtube_dl
                     - conda install -c conda-forge x264=20131218
+                    - Urrlib
+                    - Beautiful Soup
 
 '''
-import youtube_dl
+
 
 def my_hook(d):
     if d['status'] == 'finished':
@@ -67,7 +74,7 @@ def user_interface():
     while True:
         try:
             print('Youtube Downloader'.center(40, '_'))
-            URL = input('Enter youtube url :  ')
+            URL = search_youtubeVideo()
             file_name, title = download_url_youtube(URL)
             exit_ = True
             break
@@ -115,3 +122,18 @@ def extract_audioFeatures(file_path):
     print('100% - Audio features extracted')
     new_X = mean_mfccs.append(std_mfccs.append(mean_chromas.append(std_chromas.append(tempo))))
     return new_X .transpose()
+
+#Web Scrapping 
+def inputYT_url():
+    query_ = input('Search music : ').replace(' ','+')
+    return 'https://www.youtube.com/results?search_query='+query_
+    
+
+def search_youtubeVideo():    
+    URL_search = inputYT_url()
+    html = urllib.request.urlopen(URL_search)
+    decoder = html.read().decode()
+    video_ids = re.findall(r"watch\?v=(\S{11})", decoder)
+    #video_titles = 
+    URL_video = 'https://www.youtube.com/watch?v=' + video_ids[0] #We take the first result
+    return URL_video
