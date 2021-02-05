@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 import librosa
 import seaborn as sns
 import urllib.request
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import requests
 import youtube_dl
 import re
@@ -148,8 +148,8 @@ def inputYT_url():
 
 def search_youtubeVideo():    
     URL_search = inputYT_url()
-    html = urllib.request.urlopen(URL_search)
-    decoder = html.read().decode()
+    html_page = urllib.request.urlopen(URL_search)
+    decoder = html_page.read().decode()
     video_ids = re.findall(r"watch\?v=(\S{11})", decoder)
     URL_video = 'https://www.youtube.com/watch?v=' + video_ids[0] #We take the first result
     return URL_video
