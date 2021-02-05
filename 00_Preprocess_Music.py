@@ -146,6 +146,46 @@ for id, amplitude in amplitudes_allsongs.items():
 df_std_zcr = df_std_zcr.transpose()
 df_mean_zcr = df_mean_zcr.transpose()
 
+#%% 
+"""
+Dataframe des spectral roll off
+
+"""
+df_mean_sro = pd.DataFrame()
+df_std_sro = pd.DataFrame()
+
+i=1
+for id, amplitude in amplitudes_allsongs.items():
+    print(str(i)+'/'+str(len(paths_df))) if i%10==0 else ''
+    sro = librosa.feature.spectral_rolloff(y=amplitude,sr = 22050)
+    df_mean_sro[id] = [np.mean(sro)]
+    df_std_sro[id] = [np.std(sro)]
+    i+=1
+
+df_std_sro = df_std_sro.transpose()
+df_mean_sro = df_mean_sro.transpose()
+
+
+#%% 
+"""
+Dataframe des spectral centroid
+
+"""
+df_mean_sc = pd.DataFrame()
+df_std_sc = pd.DataFrame()
+
+i=1
+for id, amplitude in amplitudes_allsongs.items():
+    print(str(i)+'/'+str(len(paths_df))) if i%10==0 else ''
+    sc = librosa.feature.spectral_centroid(y=amplitude,sr = 22050)
+    df_mean_sc[id] = [np.mean(sc)]
+    df_std_sc[id] = [np.std(sc)]
+    i+=1
+
+df_std_sc = df_std_sc.transpose()
+df_mean_sc = df_mean_sc.transpose()
+
+
 #%%
 """ 
 Save as CSV
@@ -157,5 +197,9 @@ df_mean_chromas.to_csv('Inputs/df_mean_chromas.csv')
 df_std_chromas.to_csv('Inputs/df_std_chromas.csv')
 df_tempo.to_csv('Inputs/df_tempo.csv')
 paths_df.to_csv('Inputs/paths_genres.csv')
-df_mean_chromas.to_csv('Inputs/df_mean_zcr.csv')
-df_std_chromas.to_csv('Inputs/df_std_zcr.csv')
+df_mean_zcr.to_csv('Inputs/df_mean_zcr.csv')
+df_std_zcr.to_csv('Inputs/df_std_zcr.csv')
+df_mean_sro.to_csv('Inputs/df_mean_sro.csv')
+df_std_sro.to_csv('Inputs/df_std_sro.csv')
+df_mean_sc.to_csv('Inputs/df_mean_sc.csv')
+df_std_sc.to_csv('Inputs/df_std_sc.csv')

@@ -41,6 +41,12 @@ df_std_mfccs = pd.read_csv('Inputs/df_std_mfccs.csv', index_col=0)
 df_mean_mfccs = pd.read_csv('Inputs/df_mean_mfccs.csv', index_col=0)
 df_mean_chromas = pd.read_csv('Inputs/df_mean_chromas.csv', index_col=0)
 df_std_chromas = pd.read_csv('Inputs/df_std_chromas.csv', index_col=0)
+df_mean_zcr = pd.read_csv('Inputs/df_mean_zcr.csv', index_col=0)
+df_std_zcr = pd.read_csv('Inputs/df_std_zcr.csv', index_col=0)
+df_mean_sro = pd.read_csv('Inputs/df_mean_sro.csv', index_col=0)
+df_std_sro = pd.read_csv('Inputs/df_std_sro.csv', index_col=0)
+df_mean_sc = pd.read_csv('Inputs/df_mean_sc.csv', index_col=0)
+df_std_sc = pd.read_csv('Inputs/df_std_sc.csv', index_col=0)
 df_tempo = pd.read_csv('Inputs/df_tempo.csv', index_col=0)
 paths_df = pd.read_csv('Inputs/paths_genres.csv', index_col=0)
 
@@ -73,10 +79,10 @@ Prepare the HYPERPARAMETERS
 
 #Hyperparameters
 n_epochsList = [100, 500, 800]
-#n_batchList = [None, 200, 300]  
+n_batchList = [None, 200, 300]  
 
-n_epochsList = [100]
-n_batchList = [None]  
+#n_epochsList = [100]
+#n_batchList = [None]  
 
 
 #%% 
@@ -120,6 +126,8 @@ Model 2 = Neural Network with :
 X2 = df_mean_mfccs.join(df_mean_chromas, lsuffix='_mfccs', rsuffix='_chroma')
 
 model_name2 = 'NN_42col_mean_MFCCS_Chromas'
+optimizer_ = 'adam'
+
 model_object2 = Sequential( [ 
         Dense(42, activation='relu', input_shape=(42,)), #Hidden dense layer (fully connected with ReLu activation)
         Dense(35, activation='linear'),
@@ -148,6 +156,7 @@ X3 = df_mean_mfccs.join(df_std_mfccs, lsuffix='_MeanMFCC', rsuffix='_StdMFCC')
 
 #Name of the model
 model_name3 = 'NN_60col_MeanStd_MFCCS'
+optimizer_ = 'adam'
 
 #Creation of the structure
 model_object3 = Sequential( [ 
@@ -187,6 +196,7 @@ X4 = X3.join(df_mean_chromas.join(df_std_chromas, lsuffix='_MeanChroma',
 
 #Name of the model
 model_name4 = 'NN_85col_MeanStd_MFCCChromaTempo'
+optimizer_ = 'adam'
 
 #Creation of the structure
 model_object4 = Sequential( [ 
@@ -216,22 +226,26 @@ all_results = all_results.append(NN_4.results_metrics)
 
 #%% 
 """
-Model 4 = Neural Network with : 
+Model 5 = Neural Network with : 
             60 mean/std MFCCs + 
             24 mean/std Chromas + 
-            1 mean Tempo
+            1 mean Tempo + 
+            2 mean/std zero crossing rate
 
 """
 #Features
+X3 = df_mean_mfccs.join(df_std_mfccs, lsuffix='_MeanMFCC', rsuffix='_StdMFCC')
 X4 = X3.join(df_mean_chromas.join(df_std_chromas, lsuffix='_MeanChroma', 
                                   rsuffix='_StdChroma')).join(df_tempo,rsuffix='tempo')
+X5 = X4.join(df_mean_zcr.join(df_std_zcr,lsuffix='_MeanZCR',rsuffix='_StdZCR'))
 
 #Name of the model
-model_name4 = 'NN_85col_MeanStd_MFCCChromaTempo'
+model_name5 = 'NN_87col_MeanStd_MFCCChromaTempoZCR'
+optimizer_ = 'adam'
 
 #Creation of the structure
-model_object4 = Sequential( [ 
-        Dense(85, activation='relu', input_shape=(85,)), #Hidden dense layer (fully connected with ReLu activation)
+model_object5 = Sequential( [ 
+        Dense(87, activation='relu', input_shape=(87,)), #Hidden dense layer (fully connected with ReLu activation)
         Dense(75, activation='relu'),
         Dense(65, activation='linear'),
         Dense(55, activation='relu'),
@@ -243,21 +257,111 @@ model_object4 = Sequential( [
     ])
 
 #Compile the model
-model_object4.compile(optimizer=optimizer_,
+model_object5.compile(optimizer=optimizer_,
                      loss='categorical_crossentropy',
                      metrics=[CategoricalAccuracy(), Precision(), Recall()])
 
 #Neural Network Classifier Object
-NN_4 = Neural_Network_Classif(X4, encoded_Y, model_name4, model_object4)
+NN_5 = Neural_Network_Classif(X5, encoded_Y, model_name5, model_object5)
 #Run GridSearch
-res = NN_4.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+res = NN_5.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
 #Append results                                               
-all_results = all_results.append(NN_4.results_metrics) 
+all_results = all_results.append(NN_5.results_metrics) 
 
 
+#%% 
+"""
+Model 6 = Neural Network with : 
+            60 mean/std MFCCs + 
+            24 mean/std Chromas + 
+            1 mean Tempo + 
+            2 mean/std zero crossing rate+
+            2 mean/std spectral rolloff
 
+"""
+#Features
+X3 = df_mean_mfccs.join(df_std_mfccs, lsuffix='_MeanMFCC', rsuffix='_StdMFCC')
+X4 = X3.join(df_mean_chromas.join(df_std_chromas, lsuffix='_MeanChroma', 
+                                  rsuffix='_StdChroma')).join(df_tempo,rsuffix='tempo')
+X5 = X4.join(df_mean_zcr.join(df_std_zcr,lsuffix='_MeanZCR',rsuffix='_StdZCR'))
+X6 = X5.join(df_mean_sro.join(df_std_sro,lsuffix='_MeanSRO',rsuffix='_StdSRO'))
+
+#Name of the model
+model_name6 = 'NN_89col_MeanStd_MFCCChromaTempoZCRSRO'
+optimizer_ = 'adam'
+
+#Creation of the structure
+model_object6 = Sequential( [ 
+        Dense(89, activation='relu', input_shape=(89,)), #Hidden dense layer (fully connected with ReLu activation)
+        Dense(79, activation='relu'),
+        Dense(69, activation='linear'),
+        Dense(59, activation='relu'),
+        Dense(49, activation='linear'),
+        Dense(39, activation='relu'),
+        Dense(29, activation='relu'),
+        Dense(10, activation='softmax')
+        
+    ])
+
+#Compile the model
+model_object6.compile(optimizer=optimizer_,
+                     loss='categorical_crossentropy',
+                     metrics=[CategoricalAccuracy(), Precision(), Recall()])
+
+#Neural Network Classifier Object
+NN_6 = Neural_Network_Classif(X6, encoded_Y, model_name6, model_object6)
+#Run GridSearch
+res = NN_6.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+#Append results                                               
+all_results = all_results.append(NN_6.results_metrics) 
+
+#%% 
+"""
+Model 7 = Neural Network with : 
+            60 mean/std MFCCs + 
+            24 mean/std Chromas + 
+            1 mean Tempo + 
+            2 mean/std zero crossing rate+
+            2 mean/std spectral centroid
+
+"""
+#Features
+X3 = df_mean_mfccs.join(df_std_mfccs, lsuffix='_MeanMFCC', rsuffix='_StdMFCC')
+X4 = X3.join(df_mean_chromas.join(df_std_chromas, lsuffix='_MeanChroma', 
+                                  rsuffix='_StdChroma')).join(df_tempo,rsuffix='tempo')
+X5 = X4.join(df_mean_zcr.join(df_std_zcr,lsuffix='_MeanZCR',rsuffix='_StdZCR'))
+X7 = X5.join(df_mean_sc.join(df_std_sc,lsuffix='_MeanSC',rsuffix='_StdSC'))
+
+#Name of the model
+model_name7 = 'NN_89col_MeanStd_MFCCChromaTempoZCRSC'
+optimizer_ = 'adam'
+
+#Creation of the structure
+model_object7 = Sequential( [ 
+        Dense(89, activation='relu', input_shape=(89,)), #Hidden dense layer (fully connected with ReLu activation)
+        Dense(79, activation='relu'),
+        Dense(69, activation='linear'),
+        Dense(59, activation='relu'),
+        Dense(49, activation='linear'),
+        Dense(39, activation='relu'),
+        Dense(29, activation='relu'),
+        Dense(10, activation='softmax')
+        
+    ])
+
+#Compile the model
+model_object7.compile(optimizer=optimizer_,
+                     loss='categorical_crossentropy',
+                     metrics=[CategoricalAccuracy(), Precision(), Recall()])
+
+#Neural Network Classifier Object
+NN_7 = Neural_Network_Classif(X7, encoded_Y, model_name7, model_object7)
+#Run GridSearch
+res = NN_7.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+#Append results                                               
+all_results = all_results.append(NN_7.results_metrics) 
 
 #%% Plot the metrics
 plot1 =plot_metrics_AllModels(metric_='Test_Accuracy', hyperparam_='Epochs',
                               all_results_=all_results)
-plot1.savefig('Outputs/NN_metrics/plot_metrics_testaccuracyepochs.png', dpi=500)
+#plot1.savefig('Outputs/NN_metrics/plot_metrics_testaccuracyepochs.png', dpi=500)

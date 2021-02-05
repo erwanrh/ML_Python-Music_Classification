@@ -82,3 +82,4 @@ NN_4 = Neural_Network_Classif(X4, encoded_Y, model_name4, model_object4)
 res = NN_4.run_GridSearch([100], [None], 'adam', False)
 #Append results                                               
 print('Test accuracy on chosen model = {}'.format(NN_4.results_metrics['Test_Accuracy'][0]))
+#%%
