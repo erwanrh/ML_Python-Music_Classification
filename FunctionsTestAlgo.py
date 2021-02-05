@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
@@ -12,23 +13,89 @@
 ###################################################################
 ## Authors: Ben Baccar Lilia / Rahis Erwan
 ###################################################################
-
+from __future__ import unicode_literals
 import librosa
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import librosa
 import seaborn as sns
+'''
+Packages to install
+                    - youtube_dl
+                    - conda install -c conda-forge x264=20131218
+
+'''
+import youtube_dl
+
+def my_hook(d):
+    if d['status'] == 'finished':
+        print('Done downloading, now converting ...')
 
 
-def predict_genre(path, chosen_model, classes):
+def download_url_youtube(URL):
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl':'%(id)s.%(ext)s',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'wav',
+            'preferredquality': '192'
+        }],
+        'postprocessor_args': [
+            '-ar', '16000', 
+            '-ss','0:0:30' ,
+            '-to', '0:1:30'
+        ],
+        'prefer_ffmpeg': True,
+        'keepvideo': False,
+        'progress_hooks': [my_hook]
+    }
+    
+    
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([URL])
+        temp_info = ydl.extract_info(URL,download=False )
+        file_name = temp_info['id']+'.wav'
+    return file_name, temp_info['title']
+
+
+def user_interface():
+    file_name = ''
+    title = ''
+    exit_ = False
+    while True:
+        try:
+            print('Youtube Downloader'.center(40, '_'))
+            URL = input('Enter youtube url :  ')
+            file_name, title = download_url_youtube(URL)
+            exit_ = True
+            break
+            
+        except Exception:
+            print("Couldn\'t download the audio")
+            exit_ = False
+            option = int(input('\n1.download again \n2.Exit\n\nOption here :'))
+            if option!=1:
+                break
+            
+        finally:
+            if exit_:
+                break
+    
+    print('\n     Download Done \n            Starting classification')
+    return file_name, title
+
+
+
+def predict_genre(path, chosen_model, classes, title):
     features = extract_audioFeatures(path)
     pred = chosen_model.predict(features)
     
     
     fig, ax = plt.subplots(figsize=(10,5))
     sns.barplot(x=classes,y=pred[0])
-    ax.set_title('Classification probabilities')
+    ax.set_title('Classification probabilities for '+ title)
     return fig, pred
 
 
