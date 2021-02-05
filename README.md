@@ -28,7 +28,6 @@ Our approach follows three main steps :
 
 # Audio features
 To use Machine Learning and create a classifier based on audio files alone, we need our data to be represented numerically. The first step is to process our dataset to extract relevant characteristics and store them in vector format. 
-
 In 2008, Panagakis and al. said that there are three types of audio feature usually employed in music classification :
   - Timbral texture features : MFCCs, spectral spread, zero crossing rate,…
   - Rhythmics features : tempo,…
@@ -38,6 +37,20 @@ We tested a lot of them but here are the remaining one, used in our model (we ch
   - Mel-frequency Cepstral Coefficients (MFCCs)
   - Chroma features
   - Tempo
+
+### MFCCs
+The timbre can be defined as the quality or color of a music. We can find the timbral qualities of a music with its spectral information. Previous research papers have shown that MFCCs are a powerful tool to represent the spectral content of a audio file.
+In sound processing, the mel-frequency cepstrum is a representation of the short-term power spectrum of a sound, based on a linear cosine transform of a log power spectrum on a nonlinear mel scale of frequency. Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up an MFC and are derived from the following steps for one audio file :
+  - Division of the audio file into small frames of 20-40 ms: the resulting vector is a time series representing the audio file.
+  - Estimation of the power spectrum for each frame using the Fourier Transform. It is equivalent to the power present for each frequency band within that frame.
+  - ...
+  - Computation of the logarithms of the filterbank energies.
+  - ...
+
+### Chroma features
+...
+### Tempo
+...
 
 ![alt text](Outputs/waveforms.png "Waveplot visualization of 4 different-genre musical extracts")
 ![alt text](Outputs/MFCs.png "Mel-frequency spectrogram of 4 different-genre musical extracts")
