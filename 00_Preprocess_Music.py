@@ -127,6 +127,25 @@ for id, amplitude in amplitudes_allsongs.items():
 
 df_tempo = df_tempo.transpose()
 
+#%% 
+"""
+Dataframe des zero crossing rate
+
+"""
+df_mean_zcr = pd.DataFrame()
+df_std_zcr = pd.DataFrame()
+
+i=1
+for id, amplitude in amplitudes_allsongs.items():
+    print(str(i)+'/'+str(len(paths_df))) if i%10==0 else ''
+    zcr = librosa.feature.zero_crossing_rate(y=amplitude)
+    df_mean_zcr[id] = [np.mean(zcr)]
+    df_std_zcr[id] = [np.std(zcr)]
+    i+=1
+
+df_std_zcr = df_std_zcr.transpose()
+df_mean_zcr = df_mean_zcr.transpose()
+
 #%%
 """ 
 Save as CSV
@@ -138,3 +157,5 @@ df_mean_chromas.to_csv('Inputs/df_mean_chromas.csv')
 df_std_chromas.to_csv('Inputs/df_std_chromas.csv')
 df_tempo.to_csv('Inputs/df_tempo.csv')
 paths_df.to_csv('Inputs/paths_genres.csv')
+df_mean_chromas.to_csv('Inputs/df_mean_zcr.csv')
+df_std_chromas.to_csv('Inputs/df_std_zcr.csv')

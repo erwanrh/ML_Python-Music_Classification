@@ -214,6 +214,47 @@ res = NN_4.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
 all_results = all_results.append(NN_4.results_metrics) 
 
 
+#%% 
+"""
+Model 4 = Neural Network with : 
+            60 mean/std MFCCs + 
+            24 mean/std Chromas + 
+            1 mean Tempo
+
+"""
+#Features
+X4 = X3.join(df_mean_chromas.join(df_std_chromas, lsuffix='_MeanChroma', 
+                                  rsuffix='_StdChroma')).join(df_tempo,rsuffix='tempo')
+
+#Name of the model
+model_name4 = 'NN_85col_MeanStd_MFCCChromaTempo'
+
+#Creation of the structure
+model_object4 = Sequential( [ 
+        Dense(85, activation='relu', input_shape=(85,)), #Hidden dense layer (fully connected with ReLu activation)
+        Dense(75, activation='relu'),
+        Dense(65, activation='linear'),
+        Dense(55, activation='relu'),
+        Dense(45, activation='linear'),
+        Dense(35, activation='relu'),
+        Dense(25, activation='relu'),
+        Dense(10, activation='softmax')
+        
+    ])
+
+#Compile the model
+model_object4.compile(optimizer=optimizer_,
+                     loss='categorical_crossentropy',
+                     metrics=[CategoricalAccuracy(), Precision(), Recall()])
+
+#Neural Network Classifier Object
+NN_4 = Neural_Network_Classif(X4, encoded_Y, model_name4, model_object4)
+#Run GridSearch
+res = NN_4.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+#Append results                                               
+all_results = all_results.append(NN_4.results_metrics) 
+
+
 
 
 #%% Plot the metrics
