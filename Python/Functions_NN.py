@@ -23,7 +23,6 @@ class Neural_Network_Classif:
         self.X = self.scaler.transform(X_)    
         self.y = to_categorical(y_)
         
-        
         #Modèle Keras
         self.model_object = model_object_
         self.model_name = model_name_
