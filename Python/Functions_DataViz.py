@@ -10,7 +10,6 @@ from matplotlib import pyplot as plt
 sns.set_theme(style='darkgrid')
 import librosa 
 import librosa.display as ld
-import IPython.display as ipd
 import numpy as np
 import pandas as pd
 
@@ -62,6 +61,19 @@ def plot_music(path, genre):
     img = ld.specshow(t, sr=sr, x_axis='time', y_axis='tempo',cmap='magma')
     plt.colorbar(img)
     plt.title('{} Tempogram'.format(genre),fontsize = 20)
+    plt.tight_layout()
+    
+    rolloff = librosa.feature.spectral_rolloff(son, sr, roll_percent=0.99)
+    rolloff_min = librosa.feature.spectral_rolloff(son, sr, roll_percent=0.01)
+    S, phase = librosa.magphase(librosa.stft(son))
+    plt.figure(figsize=(10,5))
+    img = librosa.display.specshow(librosa.amplitude_to_db(S, ref=np.max),
+                         y_axis='log', x_axis='time')
+    plt.plot(librosa.times_like(rolloff), rolloff[0], label='Roll-off frequency (0.99)')
+    plt.plot(librosa.times_like(rolloff), rolloff_min[0], color='w',
+        label='Roll-off frequency (0.01)')
+    plt.legend(loc='lower right')
+    plt.title('{} log Power spectrogram'.format(genre),fontsize = 20)
     plt.tight_layout()
     return 
 

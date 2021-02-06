@@ -22,6 +22,7 @@ import librosa.display
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+from Functions_DataViz import plot_music
 
 # %% Folder path
 #folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
@@ -213,8 +214,8 @@ df_std_sc.to_csv('Inputs/df_std_sc.csv')
 #plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/pop/pop.00006.wav','Pop')
 #plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/jazz/jazz.00006.wav', 'Jazz')
 #plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/country/country.00006.wav','Country')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/metal/metal.00006.wav','Metal')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/classical/classical.00006.wav','Classical')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/hiphop/hiphop.00006.wav','Hiphop')
+plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/metal/metal.00006.wav','Metal')
+plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/classical/classical.00006.wav','Classical')
+plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/hiphop/hiphop.00006.wav','Hiphop')
 #plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/reggae/reggae.00006.wav','Reggae')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/blues/blues.00006.wav','Blues')
+plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/blues/blues.00006.wav','Blues')
