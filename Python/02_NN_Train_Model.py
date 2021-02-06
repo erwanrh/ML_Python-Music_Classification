@@ -15,7 +15,7 @@
 
 import numpy as np
 import pandas as pd
-from FunctionsNN import Neural_Network_Classif, test_index
+from Functions_NN import Neural_Network_Classif, test_index
 import seaborn as sns
 from matplotlib import pyplot as plt
 import tensorflow as tf

@@ -65,16 +65,6 @@ def plot_music(path, genre):
     plt.tight_layout()
     return 
 
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/disco/disco.00006.wav', 'Disco')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/rock/rock.00006.wav', 'Rock')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/pop/pop.00006.wav','Pop')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/jazz/jazz.00006.wav', 'Jazz')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/country/country.00006.wav','Country')
-plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/metal/metal.00006.wav','Metal')
-plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/classical/classical.00006.wav','Classical')
-plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/hiphop/hiphop.00006.wav','Hiphop')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/reggae/reggae.00006.wav','Reggae')
-plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/blues/blues.00006.wav','Blues')
 
 #%%
 
