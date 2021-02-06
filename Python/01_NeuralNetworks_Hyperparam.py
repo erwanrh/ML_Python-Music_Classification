@@ -129,7 +129,7 @@ model_object2 = Sequential( [
         Dense(35, activation='linear'),
         Dense(24, activation='relu'),
         Dense(15, activation='linear'),
-        Dense(10, activation='softmax')
+        Dense(12, activation='softmax')
         
     ])
 model_object2.compile(optimizer=optimizer_,
