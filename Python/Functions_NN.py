@@ -19,9 +19,9 @@ import Functions_DataViz
 class Neural_Network_Classif:
     def __init__(self, X_, y_, model_name_, model_object_):
         #Features and labels
-        scaler = StandardScaler().fit(X_)
-        self.X = scaler.transform(X_)    
-        self.y = to_categorical(y_)        
+        self.scaler = StandardScaler().fit(X_)
+        self.X = self.scaler.transform(X_)    
+        self.y = to_categorical(y_)
         
         #Modèle Keras
         self.model_object = model_object_
