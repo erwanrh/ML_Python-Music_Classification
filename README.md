@@ -42,6 +42,7 @@ We found the link of this dataset on Kaggle which comes pre-organised into folde
 
 So, we decided to improve this dataset by adding new songs and new genres using webscrapping on YouTube. To do that, we chose some well-known labelled playlist on YouTube to add songs in existing genres and to add new genres. 
 
+Here is the examples of four songs from four different genres. 
 ![alt text](Python/Outputs/waveforms.png "Waveplot visualization of 4 different-genre musical extracts")
 
 ### Extracting features from audio files
@@ -65,21 +66,26 @@ In sound processing, the mel-frequency cepstrum is a representation of the short
   - Computation of the logarithms of the filterbank energies.
   - Transformation on the logarithms into discrete cosine and deletion of approximately half of the results.
  
+Here is the mel-frequency spectrogram of four songs from four different genres. 
 ![alt text](Python/Outputs/MFCs.png "Mel-frequency spectrogram of 4 different-genre musical extracts")
 
 #### Chroma features
 These features are related to musical notes in a song. It is the estimation of the intensity with which each note is present in an audio file and how the changes between two notes occurs in time. These information are useful because each musical genre tends towards different key signature that is the most frequently played note in a song. 
+
+Here is the chromagram of four songs from four different genres. 
 ![alt text](Python/Outputs/Chromagrams.png "Chromagram of 4 different-genre musical extracts")
 
 #### Tempo
 To classify music, an estimation of the average musical tempo is useful as a song includes several tempo changes throughout its duration. Indeed, each musical genre is usually played at different speeds.  A lot of music are set to a fixed number of beats per minute. We can estimate the number of beats per minute and rhythmics emphases given the rhythmic emphasis placed on each beat of a bar.
+
+Here is the tempogram of four songs from four different genres. 
 ![alt text](Python/Outputs/Tempograms.png "Tempogram of 4 different-genre musical extracts")
 
 # Train our classifier
 There are 85 neurons in the input layer, one for each feature of an audio file, seven hidden layers with different activation functions, and 10 neurons in the output layer, one for each musical genre. We used different activation function for each layer : ReLu, ReLu, Linear, ReLu, Linear, ReLu, ReLu, Softmax.
 We use a Sequential model as it is appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor. We created a Sequential model by passing the list of layers to the Sequential constructor.
 
-# Train our classifier
 ![alt text](Python/Outputs/NN_metrics/AllModels.png "All Models performance")
 ![alt text](Python/Outputs/NN_architecture.png "NN Architecture")
 
+# References
