@@ -91,7 +91,7 @@ model_object = Sequential( [
         Dense(49, activation='linear'),
         Dense(39, activation='relu'),
         Dense(29, activation='relu'),
-        Dense(10, activation='softmax')
+        Dense(12, activation='softmax')
         
     ])
 
