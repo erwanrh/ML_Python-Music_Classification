@@ -52,7 +52,7 @@ In sound processing, the mel-frequency cepstrum is a representation of the short
 ### Tempo
 ...
 
-![alt text](Outputs/waveforms.png "Waveplot visualization of 4 different-genre musical extracts")
-![alt text](Outputs/MFCs.png "Mel-frequency spectrogram of 4 different-genre musical extracts")
-![alt text](Outputs/Chromagrams.png "Chromagram of 4 different-genre musical extracts")
-![alt text](Outputs/Tempograms.png "Tempogram of 4 different-genre musical extracts")
+![alt text](Python/Outputs/waveforms.png "Waveplot visualization of 4 different-genre musical extracts")
+![alt text](Python/Outputs/MFCs.png "Mel-frequency spectrogram of 4 different-genre musical extracts")
+![alt text](Python/Outputs/Chromagrams.png "Chromagram of 4 different-genre musical extracts")
+![alt text](Python/Outputs/Tempograms.png "Tempogram of 4 different-genre musical extracts")
