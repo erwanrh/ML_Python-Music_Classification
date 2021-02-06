@@ -100,7 +100,7 @@ def statistics():
     ax.set_title('MFCCs means for each genre',fontweight ="bold", fontsize = 20)
     plt.legend(bbox_to_anchor=(1,1),loc = 2,borderaxespad=0)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[:10], l[:10], loc='upper right', bbox_to_anchor=(1, 0.105), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[:12], l[:12], loc='upper right', bbox_to_anchor=(1, 0.105), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
     
@@ -108,7 +108,7 @@ def statistics():
     sns.lineplot(x='genre',y='value', hue='variable', data=result['std_mfccs'].reset_index().melt(id_vars='genre'))
     ax.set_title('MFCCs standard deviations for each genre',fontweight ="bold", fontsize = 20)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[:10], l[:10], loc='upper left', bbox_to_anchor=(0, 1), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[:12], l[:12], loc='upper left', bbox_to_anchor=(0, 1), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
     
@@ -116,7 +116,7 @@ def statistics():
     sns.lineplot(x='genre',y='value', hue='variable', data=result['std_chromas'].reset_index().melt(id_vars='genre'))
     ax.set_title('Chromas standard deviations for each genre',fontweight ="bold", fontsize = 20)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[:10], l[:10], loc='upper right', bbox_to_anchor=(1, 0.105), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[:12], l[:12], loc='upper right', bbox_to_anchor=(1, 0.105), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
     
@@ -124,7 +124,7 @@ def statistics():
     sns.lineplot(x='genre',y='value', hue='variable', data=result['mean_chromas'].reset_index().melt(id_vars='genre'))
     ax.set_title('Chromas means for each genre',fontweight ="bold", fontsize = 20)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[:10], l[:10], loc='upper left', bbox_to_anchor=(0, 1), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[:12], l[:12], loc='upper left', bbox_to_anchor=(0, 1), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
     
@@ -137,7 +137,7 @@ def statistics():
     sns.scatterplot(x='valuemean',y='valuestd', hue='genremean', alpha = 0.6, sizes = (200,400),size='variablemean',data=result['mean_chromas'].reset_index().melt(id_vars='genre').join(result['std_chromas'].reset_index().melt(id_vars='genre'), lsuffix='mean', rsuffix='std'))
     ax.set_title('Chromas standard deviations in function of chromas means', fontsize = 20)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[1:11], l[1:11], loc='upper left', bbox_to_anchor=(0, 0.105), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[1:13], l[1:13], loc='upper left', bbox_to_anchor=(0, 0.105), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
     
@@ -145,7 +145,7 @@ def statistics():
     sns.scatterplot(x='valuemean',y='valuestd', hue='genremean', alpha = 0.6, sizes = (200,400),size='variablemean',data=result['mean_mfccs'].reset_index().melt(id_vars='genre').join(result['std_mfccs'].reset_index().melt(id_vars='genre'), lsuffix='mean', rsuffix='std'))
     ax.set_title('MFCCs standard deviations in function of MFCCs means', fontsize = 20)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[1:11], l[1:11], loc='upper left', bbox_to_anchor=(0, 0.105), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[1:13], l[1:13], loc='upper left', bbox_to_anchor=(0, 0.105), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
     
