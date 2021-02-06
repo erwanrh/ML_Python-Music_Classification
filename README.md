@@ -72,7 +72,7 @@ To classify music, an estimation of the average musical tempo is useful as a son
 There are 87 neurons in the input layer, one for each feature of an audio file, six hidden layers with different activation functions, and 10 neurons in the output layer, one for each musical genre. We used different activation function for each layer : ReLu, ReLu, Linear, ReLu, Linear, ReLu, ReLu, Softmax.
 We use a Sequential model as it is appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor. We created a Sequential model by passing the list of layers to the Sequential constructor.
 
-![alt text](Outputs/waveforms.png "Waveplot visualization of 4 different-genre musical extracts")
-![alt text](Outputs/MFCs.png "Mel-frequency spectrogram of 4 different-genre musical extracts")
-![alt text](Outputs/Chromagrams.png "Chromagram of 4 different-genre musical extracts")
-![alt text](Outputs/Tempograms.png "Tempogram of 4 different-genre musical extracts")
+![alt text](Python/Outputs/waveforms.png "Waveplot visualization of 4 different-genre musical extracts")
+![alt text](Python/Outputs/MFCs.png "Mel-frequency spectrogram of 4 different-genre musical extracts")
+![alt text](Python/Outputs/Chromagrams.png "Chromagram of 4 different-genre musical extracts")
+![alt text](Python/Outputs/Tempograms.png "Tempogram of 4 different-genre musical extracts")
