@@ -82,6 +82,27 @@ To classify music, an estimation of the average musical tempo is useful as a son
 Here is the tempogram of four songs from four different genres. 
 ![alt text](Python/Outputs/Tempograms.png "Tempogram of 4 different-genre musical extracts")
 
+# Model
+## Neural Networks
+For the classification task, given the number of features and the complexity of the links to establish between them we chose to design a neural network. After having built the features dataframe, we started designing a network by thinking of a relevant structure. We thought about implementing a recurrent network but the reading of the paper by B. Landsdown hinted us that it was a heavy and slow implementation. We eventually chose to design a neural network using Keras in the Tensorflow library.
+
+## Hyperparametrization / Model optimization
+We performed a long task of parametrization to choose the best model among in the script  `01_NeuralNetworks_Hyperparam.py`. We ran 7 different models using various structures and features. We added groups of features one by one and tested different number of hidden layers and different combinations of activation functions. 
+
+#### Activation function
+We trusted the ReLu activation function was the fastest and used it with most of the layers in each model but also included a few linear activation functions. For the output layer, a softmax function allowed the model to have probability outputs for each genre. 
+
+#### Optimizer, loss and metrics
+We chose the adam optimizer that perform a stochastic gradient descent with improved management of weights. This optimizer is known to be efficient in time and memory and showed better performance when we compared it to the regular stochastic gradient descent SGD.
+Regarding the loss we chose the categorical cross-entropy to handle the different genres as classes. 
+For the metrics we chose the categorical accuracy as we have a balanced data set and precision and accuracy to compare different scores. 
+
+#### Grid search 
+In the `Functions_NN.py` script we create a class *Neural_Network_Classif* that creates an object with a Keras model, assign it a name and features. Then it automatically splits the sample into train and test using the scikit learn method and creates a dataframe that will store all the results after each run of grid search. In this class there is a grid search function that performs a grid search on the batch and epochs hyper-parameters of the neural network. It fits the model on the train sample, evaluates it on the test sample and adds the results to the final table. We trained all models on 3 epochs and 3 batch sizes and in the end compared the performance in acccuracy, precision and recall for all the models. We made sure we had no gaps of performance between the 3 metrics and also with the train accuracy to avoid overfitting. 
+
+![NN_Architecture](https://github.com/erwanrh/ML_Python-Music_Classification/blob/main/Python/Outputs/NN_architecture.png?raw=true)
+
+
 # Train our classifier
 There are 85 neurons in the input layer, one for each feature of an audio file, seven hidden layers with different activation functions, and 10 neurons in the output layer, one for each musical genre. We used different activation function for each layer : ReLu, Linear and Softmax.
 We use a Sequential model as it is appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor. We created a Sequential model by passing the list of layers to the Sequential constructor.
