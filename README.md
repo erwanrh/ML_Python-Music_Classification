@@ -81,5 +81,5 @@ We use a Sequential model as it is appropriate for a plain stack of layers where
 
 # Train our classifier
 ![alt text](Python/Outputs/NN_metrics/AllModels.png "All Models performance")
-![alt text](Python/Outputs/NN_archiecture.png "NN Architecture")
+![alt text](Python/Outputs/NN_architecture.png "NN Architecture")
 
