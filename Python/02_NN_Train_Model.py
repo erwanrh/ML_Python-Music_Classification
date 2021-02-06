@@ -103,3 +103,4 @@ print('Test accuracy on chosen model = {}'.format(Final_NN.results_metrics['Test
 #%%
 # SAVE THE MODEL
 #model_object4.save('Inputs/trained_model')
+

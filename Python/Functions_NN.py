@@ -7,13 +7,13 @@ import tensorflow as tf
 from tensorflow.keras.utils import to_categorical
 from matplotlib import pyplot as plt
 import numpy as np
+import pandas as pd
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.metrics import Recall, Precision, Accuracy
 import Functions_DataViz
-import pandas as pd
 
 
 class Neural_Network_Classif:
