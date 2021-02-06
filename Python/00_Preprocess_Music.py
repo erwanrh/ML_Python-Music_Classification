@@ -25,8 +25,8 @@ import numpy as np
 from Functions_DataViz import plot_music
 
 # %% Folder path
-#folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
-folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
+folder_path = '/Users/erwanrahis/Documents/Cours/MS/S1/Machine_Learning_Python/genres.nosync'
+#folder_path = 'C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original'
 
 # %%
 """
@@ -51,7 +51,7 @@ paths_df = pd.DataFrame({'genre': genre_Y, 'file_path': file_X})
 """
 
 amplitudes_allsongs = {} 
-for i in range(len(paths_df)):
+for i in range(716, 716):#range(716, len(paths_df)):
     print('track {}/{}'.format(i+1, len(paths_df)))
     path_temp = paths_df.loc[i,'file_path']
     amplitude_temp, samplingrate = librosa.load(path_temp)
