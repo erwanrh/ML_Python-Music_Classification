@@ -80,5 +80,6 @@ There are 85 neurons in the input layer, one for each feature of an audio file, 
 We use a Sequential model as it is appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor. We created a Sequential model by passing the list of layers to the Sequential constructor.
 
 # Train our classifier
-![alt text](Python/Outputs/NN_metrics/AllModels.png "Tempogram of 4 different-genre musical extracts")
+![alt text](Python/Outputs/NN_metrics/AllModels.png "All Models performance")
+![alt text](Python/Outputs/NN_metrics/NN_architecture.png "Tempogram of 4 different-genre musical extracts")
 
