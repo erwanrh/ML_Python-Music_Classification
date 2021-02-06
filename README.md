@@ -70,7 +70,8 @@ Here is the mel-frequency spectrogram of four songs from four different genres.
 ![alt text](Python/Outputs/MFCs.png "Mel-frequency spectrogram of 4 different-genre musical extracts")
 
 #### Chroma features
-These features are related to musical notes in a song. It is the estimation of the intensity with which each note is present in an audio file and how the changes between two notes occurs in time. These information are useful because each musical genre tends towards different key signature that is the most frequently played note in a song. 
+These features are related to musical notes in a song. It is the estimation of the intensity with which each note is present in an audio file and how the changes between two notes occurs in time. These information are useful because each musical genre tends towards different key signature that is the most frequently played note in a song.
+A chromagram has shape <img src="https://render.githubusercontent.com/render/math?math=(12, n_frames)">. 12 for each of the 12 semitones in an octave C,C#,D..., B. Each bin in the chroma spectrogram represents the average energy of that semitone (across all octaves). ![n_frames] is the number of time-frames in the spectrogram. Each frame is 	![\frac{*hop_length*}{*sr*}] seconds long, with *sr* is the sample rate of the loaded audio file. To go to a given time in seconds in this spectrogram, compute ![frame_no = int(\frac{time}{\frac{hop_length}{sr}})].
 
 Here is the chromagram of four songs from four different genres. 
 ![alt text](Python/Outputs/Chromagrams.png "Chromagram of 4 different-genre musical extracts")
