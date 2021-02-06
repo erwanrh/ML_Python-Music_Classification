@@ -44,14 +44,14 @@ def plot_music(path, genre):
     mel = librosa.feature.melspectrogram(y=son, sr=sr)
     mel_dB = librosa.power_to_db(mel)
     plt.figure(figsize=(10,5))
-    img = ld.specshow(mel_dB, x_axis = 'time', y_axis = 'mel', sr = sr)
+    img = ld.specshow(mel_dB, x_axis = 'time', y_axis = 'mel', sr = sr,vmin=-60, vmax =40)
     plt.colorbar(img,format='%+2.0f dB')
     plt.title('{} Mel-frequency spectrogram'.format(genre),fontsize = 20)
     plt.tight_layout()
     
     chroma = librosa.feature.chroma_stft(y=son, sr=sr)
     plt.figure(figsize=(10,5))
-    ld.specshow(chroma, y_axis='chroma', x_axis='time',sr =sr)
+    img = ld.specshow(chroma, y_axis='chroma', x_axis='time',sr =sr)
     plt.colorbar(img)
     plt.title('{} Chromagram'.format(genre),fontsize = 20)
     plt.tight_layout()
@@ -64,17 +64,6 @@ def plot_music(path, genre):
     plt.title('{} Tempogram'.format(genre),fontsize = 20)
     plt.tight_layout()
     return 
-
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/disco/disco.00006.wav', 'Disco')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/rock/rock.00006.wav', 'Rock')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/pop/pop.00006.wav','Pop')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/jazz/jazz.00006.wav', 'Jazz')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/country/country.00006.wav','Country')
-plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/metal/metal.00006.wav','Metal')
-plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/classical/classical.00006.wav','Classical')
-plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/hiphop/hiphop.00006.wav','Hiphop')
-#plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/reggae/reggae.00006.wav','Reggae')
-plot_music('C:/Users/lilia/OneDrive/Documents/archive/Data/genres_original/blues/blues.00006.wav','Blues')
 
 #%%
 
