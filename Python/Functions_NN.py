@@ -21,8 +21,7 @@ class Neural_Network_Classif:
         #Features and labels
         scaler = StandardScaler().fit(X_)
         self.X = scaler.transform(X_)    
-        self.y = to_categorical(y_)
-        
+        self.y = to_categorical(y_)        
         
         #Modèle Keras
         self.model_object = model_object_
