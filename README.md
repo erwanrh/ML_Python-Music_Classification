@@ -22,7 +22,7 @@ Before explaining the project, here are the description of each file. Each file 
   - Basics : `numpy` (1.19.2), `pandas` (1.2.1)
   - Visualization : `seaborn` (0.11.1), `matplotlib` (3.3.2), `IPython` (7.20.0) 
   - Music processing and analysis : `librosa` (0.8.0)
-  - Scrapping : `requests` (2.25.1), `urllib` (1.26.3), `re` (2020.6.8), `youtubedl` (2021.02.04.1)
+  - Scrapping : `requests` (2.25.1), `urllib` (1.26.3), `re` (6.8), `youtubedl` (02.04.1)
   - Model : `tensorflow` (2.3.0), `sklearn` (0.23.2)
   - Interface : `tkinter` (8.6.10)
 
