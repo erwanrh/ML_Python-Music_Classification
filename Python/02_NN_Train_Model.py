@@ -25,6 +25,7 @@ from tensorflow.keras.layers import Dense, Dropout
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.metrics import CategoricalAccuracy, Precision, Recall
+from pickle import dump
 
 #%%
 """
@@ -103,10 +104,11 @@ model_object.compile(optimizer=optimizer_,
 Final_NN = Neural_Network_Classif(X, encoded_Y, model_name, model_object)
 #Run GridSearch
 res = Final_NN.run_GridSearch([500], [300], optimizer_, True)
-                                             
+                        
 print('Test accuracy on chosen model = {}'.format(Final_NN.results_metrics['Test_Accuracy'][0]))
 
 #%%
 # SAVE THE MODEL
 model_object.save('Inputs/trained_model')
-
+#Save the scaler
+dump(Final_NN.scaler, open('Inputs/scaler.pkl', 'wb'))

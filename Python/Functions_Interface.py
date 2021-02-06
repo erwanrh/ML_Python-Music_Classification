@@ -68,12 +68,12 @@ def user_interface():
 
 
 # Function to start classification from a music path  
-def predict_genre(path, chosen_model, classes, title, delete_file=False):
+def predict_genre(path, chosen_model, classes, title, scaler,delete_file=False):
     #Feature extraction
     features = extract_audioFeatures(path, delete_file)
     print('\n         Starting classification... \n')
     #Predcition with the chosen model
-    pred = chosen_model.predict(features)
+    pred = chosen_model.predict(scaler.transform(features))
     #Plot the prediction
     fig, ax = plt.subplots(figsize=(10,5))
     sns.barplot(x=classes,y=pred[0])
@@ -95,13 +95,22 @@ def extract_audioFeatures(file_path, delete_file=False):
     std_chromas =  pd.DataFrame(np.std(chroma, axis=1))
     print('70% - Computing Tempo')
     tempo = pd.DataFrame(librosa.beat.tempo(y=amplitude_temp, sr=samplingrate))
+    print('80% - Computing Zero crossing rates')
+    zcr = librosa.feature.zero_crossing_rate(y=amplitude_temp)
+    mean_zcr = pd.DataFrame([np.mean(zcr)])
+    std_zcr = pd.DataFrame([np.std(zcr)])
+    print('90% - Computing Spectral Roll Off')
+    sro = librosa.feature.spectral_rolloff(y=amplitude_temp,sr = samplingrate)
+    mean_sro = pd.DataFrame([np.mean(sro)])
+    std_sro = pd.DataFrame([np.std(sro)])
     print('100% - Audio features extracted \n')
-    new_X = mean_mfccs.append(std_mfccs.append(mean_chromas.append(std_chromas.append(tempo))))
+    new_X = mean_mfccs.append(std_mfccs.append(mean_chromas.append(std_chromas.append(
+        tempo.append(mean_zcr.append(std_zcr.append(mean_sro.append(std_sro))))))))
     #Delete the file once it's loaded
     if delete_file:
         os.remove(file_path)
         print('Audio file deleted')
-    return new_X .transpose()
+    return new_X.transpose()
 
 
 ###################################################################
