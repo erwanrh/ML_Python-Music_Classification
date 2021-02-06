@@ -8,15 +8,14 @@ Before explaining the project, here are the description of each file. Each file 
 | `01_NeuralNetworks_Hyperparam.py` | Comparison of Neural Networks architectures and models, Hyperparametrization |
 | `02_NN_Train_Model.py` | Train, save and export the chosen model |
 | `03_Launch_Classifier.py` | Prediction of the musical genre independently using the trained model |
-| `04_Interface.py` | Interface  |
 | `FunctionsDataViz.py` | Functions to do some data visualization |
 | `FunctionsNN.py` | Functions for the Neural Networks |
-| `FunctionsInterface.py` | Functions for the interface : scrapping, prediction... |
 
 | Input files | Description |
 | ------ | ------ |
 | `{}.csv` | All the CSV files with extracted features |
 | `trained model` | Keras folder with the trained model |
+| `classes_ordered.txt` | The order of the classes to know the right index of prediction |
 
 ### Library requirements  
   - Basics : `numpy` (1.19.2), `pandas` (1.2.1)
@@ -24,7 +23,6 @@ Before explaining the project, here are the description of each file. Each file 
   - Music processing and analysis : `librosa` (0.8.0)
   - Scrapping : `requests` (2.25.1), `urllib` (1.26.3), `re` (2020.6.8), `youtubedl` (2021.02.04.1)
   - Model : `tensorflow` (2.3.0), `sklearn` (0.23.2)
-  - Interface : `tkinter` (8.6.10)
 
 # References
 > Lansdown, Bryn. (2019). *Machine Learning for Music Genre Classification*. 
