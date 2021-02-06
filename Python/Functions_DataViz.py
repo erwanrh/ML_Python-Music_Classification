@@ -87,20 +87,29 @@ def statistics():
     df_std_chromas = pd.read_csv('Inputs/df_std_chromas.csv', index_col=0)
     df_tempo = pd.read_csv('Inputs/df_tempo.csv', index_col=0)
     df_paths = pd.read_csv('Inputs/paths_genres.csv', index_col=0)
+    df_mean_zcr = pd.read_csv('Inputs/df_mean_zcr.csv', index_col=0)
+    df_std_zcr = pd.read_csv('Inputs/df_std_zcr.csv', index_col=0)
+    df_mean_sro = pd.read_csv('Inputs/df_mean_sro.csv', index_col=0)
+    df_std_sro = pd.read_csv('Inputs/df_std_sro.csv', index_col=0)
+    
     
     result = {}
-    result['std_mfccs']=df_std_mfccs.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
-    result['mean_mfccs']=df_mean_mfccs.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
-    result['std_chromas']=df_std_chromas.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
-    result['mean_chromas']=df_mean_chromas.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
-    result['tempo']=df_tempo.reset_index(inplace=False).join(df_paths['genre']).groupby('genre').mean()
+    result['std_mfccs']=df_std_mfccs.join(df_paths['genre']).groupby('genre').mean()
+    result['mean_mfccs']=df_mean_mfccs.join(df_paths['genre']).groupby('genre').mean()
+    result['std_chromas']=df_std_chromas.join(df_paths['genre']).groupby('genre').mean()
+    result['mean_chromas']=df_mean_chromas.join(df_paths['genre']).groupby('genre').mean()
+    result['tempo']=df_tempo.join(df_paths['genre']).groupby('genre').mean()
+    result['std_zcr']=df_std_zcr.join(df_paths['genre']).groupby('genre').mean()
+    result['mean_zcr']=df_mean_zcr.join(df_paths['genre']).groupby('genre').mean()
+    result['std_sro']=df_std_sro.join(df_paths['genre']).groupby('genre').mean()
+    result['mean_sro']=df_mean_sro.join(df_paths['genre']).groupby('genre').mean()
     
     fig, ax = plt.subplots(figsize=(20,8))
     sns.lineplot(x='genre',y='value', hue='variable', data=result['mean_mfccs'].reset_index().melt(id_vars='genre'))
     ax.set_title('MFCCs means for each genre',fontweight ="bold", fontsize = 20)
-    plt.legend(bbox_to_anchor=(1,1),loc = 2,borderaxespad=0)
+    plt.legend(bbox_to_anchor=(1,1),loc = 2, borderaxespad=0)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[:12], l[:12], loc='upper right', bbox_to_anchor=(1, 0.105), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[:12], l[:12], loc='upper right', bbox_to_anchor=(1, 0.15), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
     
@@ -116,7 +125,7 @@ def statistics():
     sns.lineplot(x='genre',y='value', hue='variable', data=result['std_chromas'].reset_index().melt(id_vars='genre'))
     ax.set_title('Chromas standard deviations for each genre',fontweight ="bold", fontsize = 20)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[:12], l[:12], loc='upper right', bbox_to_anchor=(1, 0.105), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[:12], l[:12], loc='upper right', bbox_to_anchor=(1, 0.15), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
     
@@ -137,7 +146,7 @@ def statistics():
     sns.scatterplot(x='valuemean',y='valuestd', hue='genremean', alpha = 0.6, sizes = (200,400),size='variablemean',data=result['mean_chromas'].reset_index().melt(id_vars='genre').join(result['std_chromas'].reset_index().melt(id_vars='genre'), lsuffix='mean', rsuffix='std'))
     ax.set_title('Chromas standard deviations in function of chromas means', fontsize = 20)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[1:13], l[1:13], loc='upper left', bbox_to_anchor=(0, 0.105), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[1:13], l[1:13], loc='upper left', bbox_to_anchor=(0, 0.15), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
     
@@ -145,9 +154,29 @@ def statistics():
     sns.scatterplot(x='valuemean',y='valuestd', hue='genremean', alpha = 0.6, sizes = (200,400),size='variablemean',data=result['mean_mfccs'].reset_index().melt(id_vars='genre').join(result['std_mfccs'].reset_index().melt(id_vars='genre'), lsuffix='mean', rsuffix='std'))
     ax.set_title('MFCCs standard deviations in function of MFCCs means', fontsize = 20)
     h,l = ax.get_legend_handles_labels()
-    col_lgd = plt.legend(h[1:13], l[1:13], loc='upper left', bbox_to_anchor=(0, 0.105), fancybox=True, shadow=True, ncol=5)
+    col_lgd = plt.legend(h[1:13], l[1:13], loc='upper left', bbox_to_anchor=(0, 0.15), fancybox=True, shadow=True, ncol=5)
     plt.gca().add_artist(col_lgd)
     plt.show()
+    
+    fig, ax = plt.subplots(figsize=(20,8))
+    sns.lineplot(x='genre',y='value', legend= False, data=result['mean_zcr'].reset_index().melt(id_vars='genre'))
+    ax.set_title('Average zero crossing rate for each genre',fontweight ="bold", fontsize = 20)
+    plt.legend(bbox_to_anchor=(1,1),loc = 2,borderaxespad=0)
+    
+    fig, ax = plt.subplots(figsize=(20,8))
+    sns.lineplot(x='genre',y='value', legend= False, data=result['std_zcr'].reset_index().melt(id_vars='genre'))
+    ax.set_title('Standard deviation of zero crossing rate for each genre',fontweight ="bold", fontsize = 20)
+    plt.legend(bbox_to_anchor=(1,1),loc = 2,borderaxespad=0)
+    
+    fig, ax = plt.subplots(figsize=(20,8))
+    sns.lineplot(x='genre',y='value', legend= False, data=result['mean_sro'].reset_index().melt(id_vars='genre'))
+    ax.set_title('Average spectral rolloff for each genre',fontweight ="bold", fontsize = 20)
+    plt.legend(bbox_to_anchor=(1,1),loc = 2,borderaxespad=0)
+    
+    fig, ax = plt.subplots(figsize=(20,8))
+    sns.lineplot(x='genre',y='value', legend= False, data=result['std_sro'].reset_index().melt(id_vars='genre'))
+    ax.set_title('Standard deviation of spectral rolloff for each genre',fontweight ="bold", fontsize = 20)
+    plt.legend(bbox_to_anchor=(1,1),loc = 2,borderaxespad=0)
     
     return 
 
