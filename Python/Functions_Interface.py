@@ -45,11 +45,11 @@ def user_interface():
     exit_ = False
     while True:
         try:
-            print('Music genre classifier'.center(40, '_'))
+            print('Music genre classifier'.center(60, '_'))
             URL = search_youtubeVideo()
             file_name, title = download_url_youtube(URL)
             exit_ = True
-            print('\n Download Done \n \n')
+            print('\n Download Done \n')
             break
             
         except Exception:
