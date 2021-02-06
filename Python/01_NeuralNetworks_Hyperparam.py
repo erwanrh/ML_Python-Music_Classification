@@ -97,7 +97,7 @@ model_object1 = Sequential( [
         Dense(25, activation='relu'),
         Dense(20, activation='linear'),
         Dense(15, activation='linear'),
-        Dense(10, activation='softmax')
+        Dense(12, activation='softmax')
         
     ])
 
@@ -161,7 +161,7 @@ model_object3 = Sequential( [
         Dense(40, activation='linear'),
         Dense(30, activation='relu'),
         Dense(20, activation='linear'),
-        Dense(10, activation='softmax')
+        Dense(12, activation='softmax')
         
     ])
 
@@ -203,7 +203,7 @@ model_object4 = Sequential( [
         Dense(45, activation='linear'),
         Dense(35, activation='relu'),
         Dense(25, activation='relu'),
-        Dense(10, activation='softmax')
+        Dense(12, activation='softmax')
         
     ])
 
@@ -248,7 +248,7 @@ model_object5 = Sequential( [
         Dense(45, activation='linear'),
         Dense(35, activation='relu'),
         Dense(25, activation='relu'),
-        Dense(10, activation='softmax')
+        Dense(12, activation='softmax')
         
     ])
 
@@ -295,7 +295,7 @@ model_object6 = Sequential( [
         Dense(49, activation='linear'),
         Dense(39, activation='relu'),
         Dense(29, activation='relu'),
-        Dense(10, activation='softmax')
+        Dense(12, activation='softmax')
         
     ])
 
@@ -341,7 +341,7 @@ model_object7 = Sequential( [
         Dense(49, activation='linear'),
         Dense(39, activation='relu'),
         Dense(29, activation='relu'),
-        Dense(10, activation='softmax')
+        Dense(12, activation='softmax')
         
     ])
 
