@@ -10,6 +10,7 @@ Before explaining the project, here are the description of each file. Each file 
 | `03_Launch_Classifier.py` | Prediction of the musical genre independently using the trained model |
 | `FunctionsDataViz.py` | Functions to do some data visualization |
 | `FunctionsNN.py` | Functions for the Neural Networks |
+| `Music_Genre_Classifier_launcher.ipynb`| Notebook jupyter to launch the interface |
 
 | Input files | Description |
 | ------ | ------ |
