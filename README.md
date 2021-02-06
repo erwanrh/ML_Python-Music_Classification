@@ -89,8 +89,8 @@ We use a Sequential model as it is appropriate for a plain stack of layers where
 ![alt text](Python/Outputs/NN_architecture.png "NN Architecture")
 
 # References
-> Tzanetakis, George & Cook, Perry. (2002). Musical Genre Classification of Audio Signals. IEEE Transactions on Speech and Audio Processing. 10. 293-302. 
+> Lansdown, Bryn. (2019). *Machine Learning for Music Genre Classification*. 
 
-> Lansdown, Bryn. (2019). Machine Learning for Music Genre Classification. 
+> Panagakis, Yannis & Kotropoulos, C.. (2010). *Music genre classification via Topology Preserving Non-Negative Tensor Factorization and sparse representations*. ICASSP, IEEE International Conference on Acoustics, Speech and Signal Processing - Proceedings. 249 - 252. 
 
-> Panagakis, Yannis & Kotropoulos, C.. (2010). Music genre classification via Topology Preserving Non-Negative Tensor Factorization and sparse representations. ICASSP, IEEE International Conference on Acoustics, Speech and Signal Processing - Proceedings. 249 - 252. 
+> Tzanetakis, George & Cook, Perry. (2002). *Musical Genre Classification of Audio Signals*. IEEE Transactions on Speech and Audio Processing. 10. 293-302. 
