@@ -25,6 +25,9 @@ Before explaining the project, here are the description of each file. Each file 
   - Scrapping : `requests` (2.25.1), `urllib` (1.26.3), `re` (2020.6.8), `youtubedl` (2021.02.04.1)
   - Model : `tensorflow` (2.3.0), `sklearn` (0.23.2)
 
+### More explanation
+[Click here to go to our Wiki page](https://github.com/erwanrh/ML_Python-Music_Classification/wiki)
+
 # References
 > Lansdown, Bryn. (2019). *Machine Learning for Music Genre Classification*. 
 
