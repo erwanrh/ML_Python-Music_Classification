@@ -65,6 +65,7 @@ def plot_music(path, genre):
     plt.tight_layout()
     return 
 
+
 #%%
 
 def statistics():  
