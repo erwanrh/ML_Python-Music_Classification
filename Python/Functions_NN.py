@@ -16,7 +16,6 @@ from tensorflow.keras.metrics import Recall, Precision, Accuracy
 import Functions_DataViz
 
 
-
 class Neural_Network_Classif:
     def __init__(self, X_, y_, model_name_, model_object_):
         #Features and labels
