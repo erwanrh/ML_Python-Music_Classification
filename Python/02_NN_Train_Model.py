@@ -101,4 +101,4 @@ print('Test accuracy on chosen model = {}'.format(NN_4.results_metrics['Test_Acc
 
 
 # SAVE THE MODEL
-#model_object4.save('trained_model')
+#model_object4.save('Python/trained_model')
