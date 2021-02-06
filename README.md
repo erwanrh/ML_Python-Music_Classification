@@ -26,16 +26,6 @@ Before explaining the project, here are the description of each file. Each file 
   - Model : `tensorflow` (2.3.0), `sklearn` (0.23.2)
   - Interface : `tkinter` (8.6.10)
 
-# Context 
-Given the giant quantity of music available on Internet and the need to manage large song databases, solutions have to be found in order to automatically analyse and annotate music. The aim of our project is to create a model to automatically classify song extracts into the correct musical genre. There are a lot of applications of automated music genre recognition like music streaming services to discover similar songs for example.
-
-The main goal of our classifier to perform well is to understand what makes a musical extract a member of a particular class and to know how easily each class can be separated from the others. To do that, given audio files, we have to find the types of features whose variation can move an audio from one class to another. Software engineering can, indeed, detects aspects of audio files that humans can not perceive by themselves. 
-
-Our approach follows three main steps :
-  - Processing a labelled dataset of audio files : extraction features from them
-  - Using a dataset of these extracted features to train our classifier
-
-
 # References
 > Lansdown, Bryn. (2019). *Machine Learning for Music Genre Classification*. 
 
