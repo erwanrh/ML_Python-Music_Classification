@@ -96,7 +96,7 @@ model_object.compile(optimizer=optimizer_,
 #Neural Network Classifier Object
 Final_NN = Neural_Network_Classif(X, encoded_Y, model_name, model_object)
 #Run GridSearch
-res = Final_NN.run_GridSearch([500], [None], optimizer_, False)
+res = Final_NN.run_GridSearch([100], [200], optimizer_, False)
                                              
 print('Test accuracy on chosen model = {}'.format(Final_NN.results_metrics['Test_Accuracy'][0]))
 

@@ -85,8 +85,7 @@ n_batchList = [None, 200, 300]
 #%% 
 """
 Model 1 = Neural Network with :  
-            30  mean MFCCs 
-            12 mean chromas
+            30  mean MFCCs
 """
 #Features
 X1 = df_mean_mfccs

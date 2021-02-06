@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.metrics import Recall, Precision, Accuracy
 import Functions_DataViz
@@ -19,13 +19,15 @@ import Functions_DataViz
 class Neural_Network_Classif:
     def __init__(self, X_, y_, model_name_, model_object_):
         #Features and labels
-        self.X = X_
+        scaler = StandardScaler().fit(X_)
+        self.X = scaler.transform(X_)    
         self.y = to_categorical(y_)
+        
         
         #Modèle Keras
         self.model_object = model_object_
         self.model_name = model_name_
-
+        
         
         #Train/Test split
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, 
