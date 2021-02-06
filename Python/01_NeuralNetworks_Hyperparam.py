@@ -307,7 +307,7 @@ model_object6.compile(optimizer=optimizer_,
 #Neural Network Classifier Object
 NN_6 = Neural_Network_Classif(X6, encoded_Y, model_name6, model_object6)
 #Run GridSearch
-res = NN_6.run_GridSearch(n_epochsList, n_batchList, optimizer_, False)
+res = NN_6.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
 #Append results                                               
 all_results = all_results.append(NN_6.results_metrics) 
 
