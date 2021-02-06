@@ -26,8 +26,8 @@ from tensorflow.keras.layers import Dense, Dropout
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.metrics import CategoricalAccuracy, Precision, Recall
-import FunctionsDataViz
-from FunctionsNN import Neural_Network_Classif, test_index
+import Functions_DataViz
+from Functions_NN import Neural_Network_Classif, test_index
 
 #%% 
 """
@@ -107,7 +107,7 @@ model_object1.compile(optimizer=optimizer_,
                      metrics=[CategoricalAccuracy(), Precision(), Recall()])
 
 NN_1 = Neural_Network_Classif(X1, encoded_Y, model_name1, model_object1)
-res = NN_1.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+res = NN_1.run_GridSearch(n_epochsList, n_batchList, optimizer_, False)
                                                 
         
 all_results = all_results.append(NN_1.results_metrics) 
@@ -174,7 +174,7 @@ model_object3.compile(optimizer=optimizer_,
 #Neural Network Classifier Object
 NN_3 = Neural_Network_Classif(X3, encoded_Y, model_name3, model_object3)
 #Run GridSearch
-res = NN_3.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+res = NN_3.run_GridSearch(n_epochsList, n_batchList, optimizer_, False)
 #Append results                                               
 all_results = all_results.append(NN_3.results_metrics) 
 
@@ -261,7 +261,7 @@ model_object5.compile(optimizer=optimizer_,
 #Neural Network Classifier Object
 NN_5 = Neural_Network_Classif(X5, encoded_Y, model_name5, model_object5)
 #Run GridSearch
-res = NN_5.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+res = NN_5.run_GridSearch(n_epochsList, n_batchList, optimizer_, False)
 #Append results                                               
 all_results = all_results.append(NN_5.results_metrics) 
 
@@ -308,7 +308,7 @@ model_object6.compile(optimizer=optimizer_,
 #Neural Network Classifier Object
 NN_6 = Neural_Network_Classif(X6, encoded_Y, model_name6, model_object6)
 #Run GridSearch
-res = NN_6.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+res = NN_6.run_GridSearch(n_epochsList, n_batchList, optimizer_, False)
 #Append results                                               
 all_results = all_results.append(NN_6.results_metrics) 
 
@@ -354,7 +354,7 @@ model_object7.compile(optimizer=optimizer_,
 #Neural Network Classifier Object
 NN_7 = Neural_Network_Classif(X7, encoded_Y, model_name7, model_object7)
 #Run GridSearch
-res = NN_7.run_GridSearch(n_epochsList, n_batchList, optimizer_, True)
+res = NN_7.run_GridSearch(n_epochsList, n_batchList, optimizer_, False)
 #Append results                                               
 all_results = all_results.append(NN_7.results_metrics) 
 
@@ -363,6 +363,6 @@ all_results = all_results.append(NN_7.results_metrics)
 MPlot the metrics to compare different models
 
 """
-plot1 =plot_metrics_AllModels(metric_='Test_Accuracy', hyperparam_='Epochs',
+plot1 = Functions_DataViz.plot_metrics_AllModels(metric_='Test_Accuracy', hyperparam_='Epochs',
                               all_results_=all_results)
 #plot1.savefig('Outputs/NN_metrics/plot_metrics_testaccuracyepochs.png', dpi=500)

@@ -12,7 +12,7 @@ from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.metrics import Recall, Precision, Accuracy
-import FunctionsDataViz
+import Functions_DataViz
 import pandas as pd
 
 
@@ -64,7 +64,7 @@ class Neural_Network_Classif:
         all_results.loc[all_results['Batch'].isna(),'Batch']='NoBatch'
         fig=None
         if save_plot:
-            fig = FunctionsDataViz.plot_metricsNN(x_='Epochs', hue_='Batch', all_results=all_results)
+            fig = Functions_DataViz.plot_metricsNN(x_='Epochs', hue_='Batch', all_results=all_results)
             fig.savefig('Outputs/NN_metrics/Data_viZ'+self.model_name+'.png', dpi=500)
             print('Plot saved')
         
