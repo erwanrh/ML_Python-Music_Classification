@@ -29,13 +29,14 @@ print('Model loaded')
 classes = np.loadtxt("Inputs/classes_ordered.txt", delimiter=",", dtype=np.str)
 print('Loading scaler')
 scaler = load(open('Inputs/scaler.pkl', 'rb'))
-
+ 
 '''
 Launch the interface and classification
 '''
 path_to_audio_file, title = user_interface()
 #Prediction from the URL, the model with classes and title of the video
-plotpred1, prediction = predict_genre(path_to_audio_file, model_keras, classes,title, scaler, False)
+plotpred1, prediction = predict_genre(path_to_audio_file, model_keras,
+                                      classes,title, scaler, True)
 print('Genre for ' + title + ' is : ' +classes[np.argmax(prediction)])
 
 
