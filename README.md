@@ -82,10 +82,15 @@ Here is the tempogram of four songs from four different genres.
 ![alt text](Python/Outputs/Tempograms.png "Tempogram of 4 different-genre musical extracts")
 
 # Train our classifier
-There are 85 neurons in the input layer, one for each feature of an audio file, seven hidden layers with different activation functions, and 10 neurons in the output layer, one for each musical genre. We used different activation function for each layer : ReLu, ReLu, Linear, ReLu, Linear, ReLu, ReLu, Softmax.
+There are 85 neurons in the input layer, one for each feature of an audio file, seven hidden layers with different activation functions, and 10 neurons in the output layer, one for each musical genre. We used different activation function for each layer : ReLu, Linear and Softmax.
 We use a Sequential model as it is appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor. We created a Sequential model by passing the list of layers to the Sequential constructor.
 
 ![alt text](Python/Outputs/NN_metrics/AllModels.png "All Models performance")
 ![alt text](Python/Outputs/NN_architecture.png "NN Architecture")
 
 # References
+> Tzanetakis, George & Cook, Perry. (2002). Musical Genre Classification of Audio Signals. IEEE Transactions on Speech and Audio Processing. 10. 293-302. 
+
+> Lansdown, Bryn. (2019). Machine Learning for Music Genre Classification. 
+
+> Panagakis, Yannis & Kotropoulos, C.. (2010). Music genre classification via Topology Preserving Non-Negative Tensor Factorization and sparse representations. ICASSP, IEEE International Conference on Acoustics, Speech and Signal Processing - Proceedings. 249 - 252. 
